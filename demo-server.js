@@ -2,21 +2,24 @@
 'use strict'
 
 var connect;
-var APP_ID;
-var REST_KEY; 
+var APP_ID   = process.env.PARSE_APP_ID || null;
+var REST_KEY = process.env.PARSE_REST_KEY || null; 
 
-if (!(APP_ID = process.env.PARSE_APP_ID) || !(REST_KEY = process.env.PARSE_REST_KEY)) {
-	console.error( "\u001b[31mERROR: env vars PARSE_APP_ID or PARSE_REST_KEY not defined.\n'set' or 'export' these vars to your shell to use the demo\u001b[0m" );
-	process.exit();
+if (APP_ID  === null || REST_KEY === null) {
+	console.info( "\u001b[36mTip: set' or 'export' PARSE_APP_ID and PARSE_REST_KEY env vars to your shell to automatically set them for the demo App\u001b[0m" );
 }
 
-console.warn("\u001b[31mStarting sParse Demo Connect Server.\nThis should never, ever be exposed to the wild\u001b[0m");
+console.warn("\u001b[31mStarting sParse Demo.\nThis service should never, ever be exposed to the wild\u001b[0m");
 
 (connect = require('connect'))(
 ).use(
 	function(req, res, next) { 
-		res.setHeader( "X-PARSE-APP-ID",   APP_ID );
-		res.setHeader( "X-PARSE-REST-KEY", REST_KEY );
+		if (APP_ID !== null && REST_KEY !== null)
+		{
+			res.setHeader( "X-PARSE-APP-ID",   APP_ID );
+			res.setHeader( "X-PARSE-REST-KEY", REST_KEY );
+		}
+
 		next()
 	}
 ).use( connect.logger( 'dev' )
