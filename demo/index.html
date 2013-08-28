@@ -22,7 +22,7 @@
               <p>sparse.Model represents a single record row within a collection and is the base unit of the Sparse API. Models may be saved, updated, deleted and read from the Sparse API.</p>
               <p><strong>Usage Example</strong></p>
               <pre>var MyObject = sparse.Model.extend({
-  __parse_classname:&quot;MyObject&quot;
+  className:&quot;MyObject&quot;
 });
 var record = new MyObject();
 record.save({name:&quot;Record One&quot;, description:&quot;This record created with sParse&quot;},{
@@ -147,11 +147,11 @@ batch.exec({
           <div class="container">
             <h3 class="taped">Queries</h3>
             <div class="content">
-              <p>sparse.Collections do not differ significantly in functionality from Backbone.Collection but acceptadditional ParseAPI specific options</p>
+              <p>sparse.Collections do not differ significantly in functionality from Backbone.Collection but accept additional Parse API specific options</p>
               <to>allow queries</to>
               <p><strong>Usage Example</strong></p>
               <pre>var TestCompanies = sparse.Collection.extend({
-  __parse_classname:&quot;TestCompanies&quot;
+  className:&quot;TestCompanies&quot;
 });
 var collection = new TestCompanies();
 collection.query({&quot;active&quot;:true},{
