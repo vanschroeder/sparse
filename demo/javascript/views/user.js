@@ -23,6 +23,28 @@ if (!global.SparseDemo) {
       return _ref;
     }
 
+    UserView.prototype.reset = function() {
+      var _this = this;
+
+      if (!this['form'].model.isNew()) {
+        if (!sparse.SESSION_TOKEN) {
+          return this['form'].model.login(this['form'].model.get('username'), this['form'].model.get('password'), {
+            success: function(m, r, o) {
+              return _this.reset();
+            }
+          });
+        } else {
+          return this['form'].model.destroy({
+            success: function() {
+              _this['form'].model.clear();
+              _this['form'].model.set(_this['form'].__defaults);
+              return _this['form'].$el.find('#create_user').attr('disabled', false).siblings().attr('disabled', true);
+            }
+          });
+        }
+      }
+    };
+
     UserView.prototype.subviews = {
       'form': SparseDemo.UserForm = (function(_super1) {
         __extends(UserForm, _super1);
@@ -31,6 +53,11 @@ if (!global.SparseDemo) {
           _ref1 = UserForm.__super__.constructor.apply(this, arguments);
           return _ref1;
         }
+
+        UserForm.prototype.__defaults = {
+          username: "a.user",
+          password: "sParse"
+        };
 
         UserForm.prototype.model = new sparse.User({
           username: "a.user",
@@ -49,8 +76,8 @@ if (!global.SparseDemo) {
 
             return this.model.save(null, {
               success: function(m, r, o) {
-                $(evt.target).attr('disabled', true).siblings().attr('disabled', false);
-                return console.log("Parse API response: " + (JSON.stringify(r)));
+                $(evt.target).attr('disabled', true);
+                return _this.$el.find('#login_user').attr('disabled', false);
               },
               error: function(m, r, o) {
                 return console.log('failed to create user');
@@ -61,9 +88,11 @@ if (!global.SparseDemo) {
             var _this = this;
 
             evt.preventDefault();
-            this.model.login({
+            this.model.login(this.model.get('username'), this.model.get('password'), {
               success: function(m, r, o) {
-                return console.log("Parse API response: " + (JSON.strongify(r)));
+                $(evt.target).attr('disabled', true);
+                _this.$el.find('#logout_user').attr('disabled', false);
+                return _this.$el.find('#destroy_user').attr('disabled', false);
               },
               error: function(m, r, o) {
                 return console.log('failed to login user');
@@ -72,31 +101,14 @@ if (!global.SparseDemo) {
             return false;
           },
           'click #logout_user': function(evt) {
-            var _this = this;
-
             evt.preventDefault();
-            this.model.logout({
-              success: function(m, r, o) {
-                return console.log("Parse API response: " + (JSON.strongify(r)));
-              },
-              error: function(m, r, o) {
-                return console.log('failed to logout user');
-              }
-            });
+            this.model.logout();
+            this.$el.find('#login_user').attr('disabled', false).siblings().attr('disabled', true);
             return false;
           },
           'click #destroy_user': function(evt) {
-            var _this = this;
-
             evt.preventDefault();
-            this.model.destroy({
-              success: function(m, r, o) {
-                return console.log("Parse API response: " + (JSON.strongify(r)));
-              },
-              error: function(m, r, o) {
-                return console.log('failed to destroy user');
-              }
-            });
+            this.__parent.reset();
             return false;
           }
         };

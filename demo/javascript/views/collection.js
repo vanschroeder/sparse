@@ -23,6 +23,18 @@ if (!global.SparseDemo) {
       return _ref;
     }
 
+    CollectionView.prototype.reset = function() {
+      return this.collection.reset([]);
+    };
+
+    CollectionView.prototype.init = function(o) {
+      var _this = this;
+
+      return this.collection.on('add remove change reset', function() {
+        return _this.$el.find('#submit_query').attr('disabled', _this.collection.length < 1);
+      });
+    };
+
     CollectionView.prototype.loadCollection = function() {
       var options, opts;
 
@@ -95,14 +107,15 @@ if (!global.SparseDemo) {
               return _this.$el.find('tbody').append(_.template(_this.template, v.toJSON()));
             });
           } else {
-            return this.$el.find('tr').replaceAll(this.__o_template);
+            this.$el.find('tbody tr').remove();
+            return this.$el.find('tbody').append(this.__o_template);
           }
         };
 
         CollectionTable.prototype.init = function(o) {
           var _this = this;
 
-          this.__o_template = this.$el.find('tr').html();
+          this.__o_template = this.$el.find('tbody tr');
           return this.__parent.collection.on('reset', function(evt) {
             _this.__parent.trigger('loadingStop');
             return _this.setData(_this.__parent.collection.models);

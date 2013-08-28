@@ -23,6 +23,11 @@ if (!global.SparseDemo) {
       return _ref;
     }
 
+    BatchView.prototype.reset = function() {
+      this.collection.reset();
+      return this.$el.find('textarea').val('').trigger('change');
+    };
+
     BatchView.prototype.collection = new sparse.Batch();
 
     BatchView.prototype.loadForm = function() {
@@ -47,13 +52,15 @@ if (!global.SparseDemo) {
 
       this.trigger('loadingStart');
       return this.collection.exec({
+        success: function(m, r, o) {},
         complete: function(m, r, o) {
           var d;
 
-          console.log("successfully added our data set!\nParse Response: " + (JSON.stringify(r)));
+          _this.trigger('loadingStop');
           if (typeof (d = JSON.parse(_this['form'].getData()))['TestCompanies'] !== 'undefind' && d['TestCompanies'].length) {
-            return _this.trigger('defaultDataLoaded');
+            _this.trigger('defaultDataLoaded');
           }
+          return _this.__parent.collection.destroy(_.flatten(m));
         },
         error: function(m, r, o) {
           this.trigger('loadingStop');

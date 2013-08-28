@@ -142,10 +142,8 @@ if (!global.SparseDemo) {
         if ((c = this.getCredentials()) === null) {
           this.getAPIHeaders();
         } else {
-          console.log(c);
           this.setCredentials(c.app_id, c.rest_key);
         }
-        console.log(sparse.apiOPTS());
         if ((o != null) && o.model) {
           this.model = o.model;
         }

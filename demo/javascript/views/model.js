@@ -24,9 +24,8 @@ if (!global.SparseDemo) {
     }
 
     ModelView.prototype.reset = function() {
-      if (!this['form'].model.isNew()) {
-        return this['form'].model.destroy();
-      }
+      this['form'].model.clear();
+      return this['form'].model.set(this['form'].__defaults);
     };
 
     ModelView.prototype.subviews = {
@@ -40,9 +39,21 @@ if (!global.SparseDemo) {
           return _ref1;
         }
 
+        ModelForm.prototype.__defaults = {
+          name: 'Record One',
+          description: 'This record created with sParse'
+        };
+
         ModelForm.prototype.init = function(o) {
+          var _this = this;
+
           this.events = _.extend(this.events, ModelForm.__super__.events);
           this.delegateEvents();
+          this.model.on('change', function() {
+            var n;
+
+            return _this.$el.find('#create_model').attr('disabled', !(n = _this.model.isNew())).siblings().attr('disabled', n);
+          });
           return rivets.bind(this.el, {
             model: this.model
           });
@@ -56,11 +67,6 @@ if (!global.SparseDemo) {
             return _ref2;
           }
 
-          SparseClass.prototype.defaults = {
-            name: "New Record",
-            description: "A Record Created by sParse"
-          };
-
           return SparseClass;
 
         })(sparse.Model));
@@ -69,9 +75,9 @@ if (!global.SparseDemo) {
           'click #create_model': function(evt) {
             var _this = this;
 
-            return this.model.save({
+            return this.model.save(null, {
               success: function(m, r, o) {
-                return console.log("model sved");
+                return _this.__parent.__parent.collection.destroy(m);
               },
               error: function(m, r, o) {
                 return console.log('failed to create model');
@@ -81,27 +87,31 @@ if (!global.SparseDemo) {
           'click #update_model': function(evt) {
             var _this = this;
 
-            return this.model.save({
+            evt.preventDefault();
+            this.model.save({
               success: function(m, r, o) {},
               error: function(m, r, o) {
                 return console.log('failed to update model');
               }
             });
+            return false;
           },
           'click #destroy_model': function(evt) {
             var _this = this;
 
-            return this.model.destroy({
+            evt.preventDefault();
+            this.model.destroy({
               success: function(m, r, o) {
-                _this.__parent.__parent.collection.remove(_this.__parent.__parent.collection.filter(_this.__parent.__parent.collection.models, function(o) {
-                  return o.path.match(new RegExp("/\/" + _this.model.objectId + "+$/"));
+                _this.__parent.__parent.collection.remove(_.filter(_this.__parent.__parent.collection.models, function(o) {
+                  return o.attributes.path.match(new RegExp("\/" + _this.model.id + "+$"));
                 }));
-                return console.log("@__parent.__parent.collection len: " + _this.__parent.__parent.collection.length);
+                return _this.__parent.reset();
               },
               error: function(m, r, o) {
-                return console.log('failed to destroy user');
+                return console.log('failed to destroy model');
               }
             });
+            return false;
           }
         };
 

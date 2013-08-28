@@ -178,7 +178,6 @@ if (typeof exports !== 'undefined') {
             return delete options[v];
           }
         });
-        console.log(this.__params);
       }
       opts.success = function(m, r, o) {
         _this.__params = {
@@ -324,6 +323,19 @@ if (typeof exports !== 'undefined') {
       return "" + sparse.API_URI + "/batch";
     };
 
+    Batch.prototype.__processed = [];
+
+    Batch.prototype.processed = function(flatten) {
+      if (flatten == null) {
+        flatten = true;
+      }
+      if (flatten) {
+        return _.flatten(this.__processed);
+      } else {
+        return this.__processed;
+      }
+    };
+
     Batch.prototype.toJSON = function(options) {
       return JSON.stringify({
         requests: Batch.__super__.toJSON.call(this, options)
@@ -345,7 +357,7 @@ if (typeof exports !== 'undefined') {
           destroy: false
         });
       }
-      if (options.destroy && attrs.isNew()) {
+      if (options.destroy && this._memberIsNew(attrs)) {
         obj = null;
       } else {
         obj = {
@@ -371,19 +383,31 @@ if (typeof exports !== 'undefined') {
         requests: (this.__to_remove = model.slice(0, (sparse.MAX_BATCH_SIZE >= 0 && sparse.MAX_BATCH_SIZE < model.models.length ? sparse.MAX_BATCH_SIZE : model.models.length)))
       });
       opts.success = function(m, r, o) {
+        _this.__processed.push(_.map(m, function(v, k, l) {
+          return _.chain(_this.__to_remove[k].get('body')).tap(function(_o) {
+            if (typeof _o !== 'undefined') {
+              return _o.set(v.success);
+            } else {
+              return _o = v.success;
+            }
+          }).value();
+        }));
         _this.remove(_this.__to_remove, {
           index: 0,
           silent: true
         });
-        return setTimeout((function() {
+        setTimeout((function() {
           if (model.models.length > 0) {
             return _this.sync(method, _this, options);
           } else {
             if (options.complete) {
-              return options.complete(m, r, o);
+              return options.complete(_this.__processed, r, o);
             }
           }
         }), 200);
+        if (options.success) {
+          return options.success(m, r, o);
+        }
       };
       opts.error = function(m, r, o) {
         if (options.error) {

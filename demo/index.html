@@ -35,21 +35,25 @@ record.save({name:&quot;Record One&quot;, description:&quot;This record created 
 });</pre>
             </div>
             <form role="form" class="form-inline">
-              <div class="form-group col-4">
-                <label>ObjectId:</label><span id="model_objectId" name="model_objectId" data-text="model.objectId" class="form-control"></span>
+              <div class="row">
+                <div class="form-group col-3">
+                  <label>ObjectId:</label><span id="model_objectId" name="model_objectId" data-text="model.objectId" class="form-control"></span>
+                </div>
+                <div class="form-group col-3">
+                  <label for="lifecycle_m_name">Name Field:</label>
+                  <input id="model_name" name="model_name" type="text" placeholder="Record Name" data-value="model.name" class="form-control">
+                </div>
+                <div class="form-group col-6">
+                  <label for="lifecycle_m_desc">Description Field:</label>
+                  <input id="model_description" name="model_description" type="text" placeholder="Description" data-value="model.description" class="form-control">
+                </div>
               </div>
-              <div class="form-group col-4">
-                <label for="lifecycle_m_name">Name Field:</label>
-                <input id="model_name" name="model_name" type="text" value="Record One" data-value="model.name" class="form-control">
-              </div>
-              <div class="form-group col-4">
-                <label for="lifecycle_m_desc">Description Field:</label>
-                <input id="model_description" name="model_description" type="text" value="This record created with sParse" data-value="model.description" class="form-control">
-              </div>
-              <div class="form-group col-12 pull-right">
-                <button id="create_model" class="btn api-btn">Create</button>
-                <button id="update_model" disabled="true" class="btn api-btn">Update</button>
-                <button id="destroy_model" disabled="true" class="btn api-btn">Delete</button>
+              <div class="row">
+                <div class="form-group col-12 pull-right">
+                  <button id="create_model" class="btn api-btn">Create</button>
+                  <button id="update_model" disabled="true" class="btn api-btn">Update</button>
+                  <button id="destroy_model" disabled="true" class="btn api-btn">Delete</button>
+                </div>
               </div>
             </form>
           </div>
@@ -73,26 +77,30 @@ user.save({username:&quot;a.user&quot;, password:&quot;sParse&quot;, email:&quot
 });</pre>
             </div>
             <form role="form" class="form-inline">
-              <div class="form-group col-4">
-                <label>ObjectId:</label><span id="user_objectId" name="user_objectId" data-text="user.objectId" class="form-control">{objectId}</span>
+              <div class="row">
+                <div class="form-group col-4">
+                  <label>ObjectId:</label><span id="user_objectId" name="user_objectId" data-text="user.objectId" class="form-control">{objectId}</span>
+                </div>
+                <div class="form-group col-4">
+                  <label for="user_name">User Name:</label>
+                  <input id="user_name" name="user_name" type="text" placeholder="User Name" data-value="user.username" class="form-control">
+                </div>
+                <div class="form-group col-4">
+                  <label for="user_email">Email:</label>
+                  <input id="user_email" name="user_email" type="email" placeholder="Email Address" data-value="user.email" class="form-control">
+                </div>
+                <div class="form-group col-4">
+                  <label for="user_password">Password:</label>
+                  <input id="user_password" name="user_password" type="password" placeholder="Password" data-value="user.password" class="form-control">
+                </div>
               </div>
-              <div class="form-group col-4">
-                <label for="user_name">User Name:</label>
-                <input id="user_name" name="user_name" type="text" placeholder="User Name" data-value="user.username" class="form-control">
-              </div>
-              <div class="form-group col-4">
-                <label for="user_email">Email:</label>
-                <input id="user_email" name="user_email" type="email" placeholder="Email Address" data-value="user.email" class="form-control">
-              </div>
-              <div class="form-group col-4">
-                <label for="user_password">Password:</label>
-                <input id="user_password" name="user_password" type="password" placeholder="Password" data-value="user.password" class="form-control">
-              </div>
-              <div class="form-group col-12 pull-right">
-                <button id="create_user" class="btn api-btn">Create</button>
-                <button id="login_user" disabled="true" class="btn api-btn">Login</button>
-                <button id="logout_user" disabled="true" class="btn api-btn">Logout</button>
-                <button id="delete_user" disabled="true" class="btn api-btn">Delete</button>
+              <div class="row">
+                <div class="form-group col-12 pull-right">
+                  <button id="create_user" class="btn api-btn">Create</button>
+                  <button id="login_user" disabled="true" class="btn api-btn">Login</button>
+                  <button id="logout_user" disabled="true" class="btn api-btn">Logout</button>
+                  <button id="destroy_user" disabled="true" class="btn api-btn">Delete</button>
+                </div>
               </div>
             </form>
           </div>
@@ -124,11 +132,13 @@ batch.exec({
   }
 });</pre>
             </div>
-            <form role="form" class="form-vertical">
-              <textarea id="data" placeholder="Copy &amp; Paste JSON Data" class="form-control"></textarea>
-              <div class="form-group">
-                <button id="load" class="pull-left btn btn-default btn-lg">Load Default Data</button>
-                <button id="send" disabled class="pull-right btn btn-primary btn-lg api-btn">Send to Parse API</button>
+            <form role="form" class="form">
+              <div class="field-group">
+                <textarea id="data" placeholder="Copy &amp; Paste JSON Data" class="form-control"></textarea>
+              </div>
+              <div class="field-group">
+                <button id="load" class="btn btn-default">Load Default Data</button>
+                <button id="send" disabled class="btn btn-primary api-btn pull-right">Send to Parse API</button>
               </div>
             </form>
           </div>
@@ -196,7 +206,7 @@ collection.query({&quot;active&quot;:true},{
                 </select>
               </div>
               <div class="form-group col-12 pull-right">
-                <button id="submit_query" class="btn api-btn">Submit Query</button>
+                <button id="submit_query" disabled="true" class="btn api-btn">Submit Query</button>
               </div>
             </form>
           </div>
@@ -215,6 +225,10 @@ collection.query({&quot;active&quot;:true},{
             <div class="content">
               <ul class="list-group">
                 <li class="list-group-item">
+                  <h4>Query Builder</h4>
+                  <p>Quickly create, merge and edit complex Collection Queries</p>
+                </li>
+                <li class="list-group-item">
                   <h4>Relations</h4>
                   <p>Form one to one, one to many and many to many record associations</p>
                 </li>
@@ -224,21 +238,21 @@ collection.query({&quot;active&quot;:true},{
                 </li>
                 <li class="list-group-item">
                   <h4>Geo Points</h4>
-                  <p>Grant access permissions and restrict user access to sensitive data</p>
+                  <p>Use real-world coordinates to create location aware apps </p>
                 </li>
                 <li class="list-group-item">
                   <h4>Files</h4>
-                  <p>Grant access permissions and restrict user access to sensitive data</p>
+                  <p>Create record associations with or Delete your uploaded files</p>
                 </li>
                 <li class="list-group-item">
                   <h4>Cloud Functions</h4>
-                  <p>Grant access permissions and restrict user access to sensitive data       </p>
+                  <p>Call your custom Cloud Front functions from your Backbone App</p>
                 </li>
               </ul>
             </div>
           </div>
         </section>
-        <button id="demo_reset" class="btn btn-large btn-block btn-danger col-12">Reset Data on Server</button>
+        <button id="demo_reset" disabled="true" class="btn btn-large btn-block btn-danger col-12">Reset Data on Server</button>
       </div>
       <div id="credentialsModal" role="dialog" class="modal fade">
         <div class="modal-dialog">

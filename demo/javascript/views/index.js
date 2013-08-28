@@ -23,19 +23,37 @@ if (!global.SparseDemo) {
 
     IndexView.prototype.collection = new sparse.Batch;
 
+    IndexView.prototype.init = function(o) {
+      var _this = this;
+
+      return this.collection.on('reset add remove', function() {
+        return _this.$el.find('#demo_reset').attr('disabled', _this.collection.length < 1);
+      });
+    };
+
     IndexView.prototype.events = {
       'click #demo_reset': function(evt) {
         var _this = this;
 
-        this.collection.exec({
+        _.each(this.__children, function(v, k) {
+          if (typeof v.reset === 'function') {
+            return v.reset();
+          }
+        });
+        $('body').mask('');
+        setTimeout((function() {
+          $('body').unmask();
+          return _this.$el.find('#demo_reset').attr('disabled', _this.collection.length < 1);
+        }), 8000);
+        return this.collection.exec({
           complete: function(m, r, o) {
-            return $('body').unmask();
+            $('body').unmask();
+            return _this.$el.find('#demo_reset').attr('disabled', _this.collection.length < 1);
           },
           error: function(m, r, o) {
             return $('body').unmask();
           }
         });
-        return $('body').mask('');
       }
     };
 

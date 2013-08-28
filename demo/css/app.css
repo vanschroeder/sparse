@@ -143,11 +143,36 @@ body #main.container section form {
   padding: none !important;
 }
 /* line 137, ../../src/scss/app.scss */
+html #main.container section form .row,
+body #main.container section form .row {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+/* line 143, ../../src/scss/app.scss */
 html #main.container section form .form-group,
 body #main.container section form .form-group {
   margin-top: 8px;
 }
-/* line 143, ../../src/scss/app.scss */
+/* line 146, ../../src/scss/app.scss */
+html #main.container section form .form-group span.form-control,
+body #main.container section form .form-group span.form-control {
+  display: block;
+  min-width: 160px !important;
+  overflow: none;
+}
+/* line 154, ../../src/scss/app.scss */
+html #main.container section form .form-group #user_password,
+body #main.container section form .form-group #user_password {
+  display: block;
+  min-width: 238px !important;
+}
+/* line 160, ../../src/scss/app.scss */
+html #main.container section form .form-group #submit_query,
+body #main.container section form .form-group #submit_query {
+  position: relative;
+  top: 20px;
+}
+/* line 167, ../../src/scss/app.scss */
 html #main.container section form textarea,
 body #main.container section form textarea {
   display: block;
@@ -157,7 +182,7 @@ body #main.container section form textarea {
   resize: none;
   overflow: auto;
 }
-/* line 151, ../../src/scss/app.scss */
+/* line 175, ../../src/scss/app.scss */
 html #main.container section form textarea::-webkit-input-placeholder,
 body #main.container section form textarea::-webkit-input-placeholder {
   color: #ccc;
@@ -166,7 +191,7 @@ body #main.container section form textarea::-webkit-input-placeholder {
   text-align: center;
   padding-top: 170px;
 }
-/* line 159, ../../src/scss/app.scss */
+/* line 183, ../../src/scss/app.scss */
 html #main.container section form textarea:-moz-placeholder,
 body #main.container section form textarea:-moz-placeholder {
   color: #999;
@@ -175,7 +200,7 @@ body #main.container section form textarea:-moz-placeholder {
   text-align: center;
   padding-top: 170px;
 }
-/* line 167, ../../src/scss/app.scss */
+/* line 191, ../../src/scss/app.scss */
 html #main.container section form textarea::-moz-placeholder,
 body #main.container section form textarea::-moz-placeholder {
   color: #999;
@@ -184,7 +209,7 @@ body #main.container section form textarea::-moz-placeholder {
   text-align: center;
   padding-top: 170px;
 }
-/* line 175, ../../src/scss/app.scss */
+/* line 199, ../../src/scss/app.scss */
 html #main.container section form textarea:-ms-input-placeholder,
 body #main.container section form textarea:-ms-input-placeholder {
   color: #999;
@@ -193,7 +218,7 @@ body #main.container section form textarea:-ms-input-placeholder {
   text-align: center;
   padding-top: 170px;
 }
-/* line 190, ../../src/scss/app.scss */
+/* line 214, ../../src/scss/app.scss */
 html footer,
 body footer {
   border-top: 1px #dfdfdf solid;
