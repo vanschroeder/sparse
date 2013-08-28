@@ -377,9 +377,9 @@ See also: REST API Queries</p>
             <div class="content"><div class='highlight'><pre>    idAttribute: <span class="string">"objectId"</span>
     constructor:(attributes, options)-&gt;
       <span class="keyword">super</span> attributes, options
-      <span class="property">@__parse_classname</span> = sparse.getConstructorName @ <span class="keyword">if</span> <span class="keyword">typeof</span> <span class="property">@__parse_classname</span> == <span class="string">'undefined'</span> <span class="keyword">or</span> <span class="property">@__parse_classname</span> == <span class="literal">null</span>
-      console.warn <span class="string">"sparse.Collection requires __parse_classname to be defined"</span> <span class="keyword">if</span> <span class="property">@__parse_classname</span> == sparse.UNDEFINED_CLASSNAME 
-      <span class="property">@__parse_classname</span> = sparse.Inflection.pluralize <span class="property">@__parse_classname</span></pre></div></div>
+      <span class="property">@className</span> = sparse.getConstructorName @ <span class="keyword">if</span> <span class="keyword">typeof</span> <span class="property">@className</span> == <span class="string">'undefined'</span> <span class="keyword">or</span> <span class="property">@className</span> == <span class="literal">null</span>
+      console.warn <span class="string">"sparse.Collection requires className to be defined"</span> <span class="keyword">if</span> <span class="property">@className</span> == sparse.UNDEFINED_CLASSNAME 
+      <span class="property">@className</span> = sparse.Inflection.pluralize <span class="property">@className</span></pre></div></div>
             
         </li>
         
@@ -395,7 +395,7 @@ See also: REST API Queries</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    url : -&gt;
-      <span class="string">"<span class="subst">#{sparse.API_URI}</span>/classes/<span class="subst">#{@__parse_classname}</span><span class="subst">#{ <span class="keyword">if</span> !@.isNew() <span class="keyword">then</span> '/'+(@.get 'objectId') <span class="keyword">else</span> '' }</span>"</span></pre></div></div>
+      <span class="string">"<span class="subst">#{sparse.API_URI}</span>/classes/<span class="subst">#{@className}</span><span class="subst">#{ <span class="keyword">if</span> !@.isNew() <span class="keyword">then</span> '/'+(@.get 'objectId') <span class="keyword">else</span> '' }</span>"</span></pre></div></div>
             
         </li>
         
@@ -410,10 +410,10 @@ See also: REST API Queries</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    sync : (method, model, options)-&gt;
+            <div class="content"><div class='highlight'><pre>    sync : (method, model, options={})-&gt;
       opts = sparse.apiOPTS()
       opts.data = JSON.stringify @.toJSON()
-      Backbone.Collection.prototype.sync.call @, method, model, _.extend( (options || {}), opts )</pre></div></div>
+      Backbone.Model.prototype.sync.call @, method, model, _.extend( options, opts )</pre></div></div>
             
         </li>
         
@@ -468,9 +468,9 @@ See also: REST API Queries</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="property">@__parse_classname</span> = sparse.getConstructorName @ <span class="keyword">if</span> <span class="keyword">typeof</span> <span class="property">@__parse_classname</span> == <span class="string">'undefined'</span> <span class="keyword">or</span> <span class="property">@__parse_classname</span> == <span class="literal">null</span>
-      console.warn <span class="string">"sparse.Collection requires __parse_classname to be defined"</span> <span class="keyword">if</span> <span class="property">@__parse_classname</span> == sparse.UNDEFINED_CLASSNAME
-      <span class="property">@__parse_classname</span> = sparse.Inflection.pluralize <span class="property">@__parse_classname</span>
+            <div class="content"><div class='highlight'><pre>      <span class="property">@className</span> = sparse.getConstructorName @ <span class="keyword">if</span> <span class="keyword">typeof</span> <span class="property">@className</span> == <span class="string">'undefined'</span> <span class="keyword">or</span> <span class="property">@className</span> == <span class="literal">null</span>
+      console.warn <span class="string">"sparse.Collection requires className to be defined"</span> <span class="keyword">if</span> <span class="property">@className</span> == sparse.UNDEFINED_CLASSNAME
+      <span class="property">@className</span> = sparse.Inflection.pluralize <span class="property">@className</span>
     __params:
       limit: sparse.DEFAULT_FETCH_LIMIT_OVERRIDE
       count:<span class="number">1</span>
@@ -491,7 +491,7 @@ See also: REST API Queries</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    url : -&gt;
-      encodeURI <span class="string">"<span class="subst">#{sparse.API_URI}</span>/classes/<span class="subst">#{@__parse_classname}</span><span class="subst">#{<span class="keyword">if</span> @__method == 'read' <span class="keyword">and</span> (p=@getParams()).length <span class="keyword">then</span> '?'+p <span class="keyword">else</span> ''}</span>"</span></pre></div></div>
+      encodeURI <span class="string">"<span class="subst">#{sparse.API_URI}</span>/classes/<span class="subst">#{@className}</span><span class="subst">#{<span class="keyword">if</span> @__method == 'read' <span class="keyword">and</span> (p=@getParams()).length <span class="keyword">then</span> '?'+p <span class="keyword">else</span> ''}</span>"</span></pre></div></div>
             
         </li>
         
@@ -544,7 +544,6 @@ See also: REST API Queries</p>
           <span class="keyword">if</span> options[v]
             <span class="property">@__params</span>[v] = JSON.stringify options[v]
             <span class="keyword">delete</span> options[v]
-        console.log <span class="property">@__params</span>
       opts.<span class="function"><span class="title">success</span></span> = (m,r,o)=&gt;
         <span class="property">@__params</span> =
           limit: sparse.DEFAULT_FETCH_LIMIT_OVERRIDE
@@ -701,12 +700,11 @@ See also: REST API Queries</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-36">&#182;</a>
               </div>
-              <p>override the local toJSON method to wrap the model into a &#39;requests&#39; object</p>
+              <p>hold processed models by batch</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    toJSON : (options)-&gt;
-      JSON.stringify requests : Batch.__super__.toJSON.call @, options</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    __processed:[]</pre></div></div>
             
         </li>
         
@@ -717,12 +715,12 @@ See also: REST API Queries</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-37">&#182;</a>
               </div>
-              <p>a safer way to check for new models in our Batch </p>
+              <p>retrieve flattened processed models</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    _memberIsNew: (attrs)-&gt;
-      (attrs.hasOwnProperty(<span class="string">'isNew'</span>) &amp;&amp; attrs.isNew()) || (<span class="keyword">typeof</span>(attrs.get <span class="string">'objectId'</span>)  == <span class="string">'undefined'</span> || attrs.get <span class="string">'objectId'</span> == <span class="literal">null</span> || attrs.get <span class="string">'objectId'</span> == <span class="string">""</span>)</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    processed:(flatten=<span class="literal">true</span>)-&gt;
+      <span class="keyword">if</span> flatten  <span class="keyword">then</span> _.flatten <span class="property">@__processed</span> <span class="keyword">else</span> <span class="property">@__processed</span></pre></div></div>
             
         </li>
         
@@ -733,15 +731,12 @@ See also: REST API Queries</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-38">&#182;</a>
               </div>
-              <p>override the local _prepareModel method</p>
+              <p>override the local toJSON method to wrap the model into a &#39;requests&#39; object</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    _prepareModel : (attrs, options={})-&gt;
-      options = _.extend(options, {destroy:<span class="literal">false</span>}) <span class="keyword">if</span> !(options.hasOwnProperty <span class="string">'destroy'</span>)
-      <span class="keyword">if</span> options.destroy <span class="keyword">and</span> attrs.isNew()
-        obj = <span class="literal">null</span> 
-      <span class="keyword">else</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>    toJSON : (options)-&gt;
+      JSON.stringify requests : Batch.__super__.toJSON.call @, options</pre></div></div>
             
         </li>
         
@@ -752,15 +747,11 @@ See also: REST API Queries</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-39">&#182;</a>
               </div>
-              <p>replace the given Model with a Sparse.Batch formatted model </p>
+              <p>a safer way to check for new models in our Batch </p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        obj =
-          method  :  sparse.CRUD_METHODS[<span class="keyword">if</span> options.destroy <span class="keyword">then</span> <span class="string">'destroy'</span> <span class="keyword">else</span> (<span class="keyword">if</span> <span class="property">@_memberIsNew</span> attrs <span class="keyword">then</span> <span class="string">'create'</span> <span class="keyword">else</span> <span class="string">'update'</span>)]
-          path    : <span class="string">"/<span class="subst">#{sparse.API_VERSION}</span>/classes/<span class="subst">#{attrs.__parse_classname}</span><span class="subst">#{<span class="keyword">if</span> !@_memberIsNew attrs <span class="keyword">then</span> '/'+ attrs.get 'objectId' <span class="keyword">else</span> ''}</span>"</span>
-        obj.body = attrs <span class="keyword">if</span> !options.destroy
-      Backbone.Collection.prototype._prepareModel.call @, obj, options</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    _memberIsNew: (attrs)-&gt;</pre></div></div>
             
         </li>
         
@@ -770,6 +761,87 @@ See also: REST API Queries</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-40">&#182;</a>
+              </div>
+              <p>test to see if there is an isNew property, if not, see if we have an objectId and evaluate it</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      (attrs.hasOwnProperty(<span class="string">'isNew'</span>) &amp;&amp; attrs.isNew()) || (<span class="keyword">typeof</span>(attrs.get <span class="string">'objectId'</span>)  == <span class="string">'undefined'</span> || attrs.get <span class="string">'objectId'</span> == <span class="literal">null</span> || attrs.get <span class="string">'objectId'</span> == <span class="string">""</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-41">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-41">&#182;</a>
+              </div>
+              <p>override the local _prepareModel method</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _prepareModel : (attrs, options={})-&gt;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-42">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-42">&#182;</a>
+              </div>
+              <p>we will assume this is a create or update if thedestroy param has not been set in the options</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      options = _.extend(options, {destroy:<span class="literal">false</span>}) <span class="keyword">if</span> !(options.hasOwnProperty <span class="string">'destroy'</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-43">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-43">&#182;</a>
+              </div>
+              <p>we should not attempt to destroy an object that has never been created</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">if</span> options.destroy <span class="keyword">and</span> <span class="property">@_memberIsNew</span> attrs
+        obj = <span class="literal">null</span> 
+      <span class="keyword">else</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-44">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-44">&#182;</a>
+              </div>
+              <p>replace the given Model with a Sparse.Batch formatted model </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        obj =
+          method  :  sparse.CRUD_METHODS[<span class="keyword">if</span> options.destroy <span class="keyword">then</span> <span class="string">'destroy'</span> <span class="keyword">else</span> (<span class="keyword">if</span> <span class="property">@_memberIsNew</span> attrs <span class="keyword">then</span> <span class="string">'create'</span> <span class="keyword">else</span> <span class="string">'update'</span>)]
+          path    : <span class="string">"/<span class="subst">#{sparse.API_VERSION}</span>/classes/<span class="subst">#{attrs.className}</span><span class="subst">#{<span class="keyword">if</span> !@_memberIsNew attrs <span class="keyword">then</span> '/'+ attrs.get 'objectId' <span class="keyword">else</span> ''}</span>"</span>
+        obj.body = attrs <span class="keyword">if</span> !options.destroy
+      Backbone.Collection.prototype._prepareModel.call @, obj, options</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-45">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-45">&#182;</a>
               </div>
               <p>override the local call to Backbone.sync</p>
 
@@ -781,11 +853,11 @@ See also: REST API Queries</p>
         </li>
         
         
-        <li id="section-41">
+        <li id="section-46">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-41">&#182;</a>
+                <a class="pilcrow" href="#section-46">&#182;</a>
               </div>
               <p>prepare to overwrite standard options with API specific headers and params</p>
 
@@ -796,11 +868,11 @@ See also: REST API Queries</p>
         </li>
         
         
-        <li id="section-42">
+        <li id="section-47">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-42">&#182;</a>
+                <a class="pilcrow" href="#section-47">&#182;</a>
               </div>
               <p>grab a subset of our data to fit within Parse&#39;s Batch Operation Limit</p>
 
@@ -811,11 +883,11 @@ See also: REST API Queries</p>
         </li>
         
         
-        <li id="section-43">
+        <li id="section-48">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-43">&#182;</a>
+                <a class="pilcrow" href="#section-48">&#182;</a>
               </div>
               <p>create custom success handlerfor sequential batch operations on large datasets</p>
 
@@ -826,11 +898,42 @@ See also: REST API Queries</p>
         </li>
         
         
-        <li id="section-44">
+        <li id="section-49">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-44">&#182;</a>
+                <a class="pilcrow" href="#section-49">&#182;</a>
+              </div>
+              <p>apply the changes to the original model and concat the processed models to the __processed array</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="property">@__processed</span>.push _.map m, (v,k,l) =&gt; _.chain(<span class="property">@__to_remove</span>[k].get <span class="string">'body'</span>).tap((_o) -&gt;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-50">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-50">&#182;</a>
+              </div>
+              <p>deleted items will be undefined, so just pass back the success results </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          <span class="keyword">if</span> <span class="keyword">typeof</span> _o != <span class="string">'undefined'</span> <span class="keyword">then</span> _o.set v.success <span class="keyword">else</span> _o = v.success
+        ).value()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-51">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-51">&#182;</a>
               </div>
               <p>remove data objects pending removal from the last operation</p>
 
@@ -842,13 +945,13 @@ See also: REST API Queries</p>
         </li>
         
         
-        <li id="section-45">
+        <li id="section-52">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-45">&#182;</a>
+                <a class="pilcrow" href="#section-52">&#182;</a>
               </div>
-              <p>if we stilll have data in our model, we will send it to sync</p>
+              <p>if we still have data in our model, we will send it to sync</p>
 
             </div>
             
@@ -859,102 +962,96 @@ See also: REST API Queries</p>
         </li>
         
         
-        <li id="section-46">
+        <li id="section-53">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-46">&#182;</a>
+                <a class="pilcrow" href="#section-53">&#182;</a>
               </div>
               <p>if no data is left, send a complete event</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>            options.complete m,r,o <span class="keyword">if</span> options.complete
+            <div class="content"><div class='highlight'><pre>            options.complete <span class="property">@__processed</span>, r, o <span class="keyword">if</span> options.complete
         ), <span class="number">200</span></pre></div></div>
             
         </li>
         
         
-        <li id="section-47">
+        <li id="section-54">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-47">&#182;</a>
+                <a class="pilcrow" href="#section-54">&#182;</a>
               </div>
-              <p>invoke user supplied success callback if provided
-options.success m,r,o if options.success</p>
+              <p>invoke user supplied success callback if provided</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      opts.<span class="function"><span class="title">error</span></span>    = (m,r,o)=&gt;
-        options.error m,r,o <span class="keyword">if</span> options.error
-      opts.<span class="function"><span class="title">complete</span></span> = (m,r,o)=&gt;
-        options.completed m,r,o <span class="keyword">if</span> options.completed 
+            <div class="content"><div class='highlight'><pre>        options.success m,r,o <span class="keyword">if</span> options.success
+      opts.<span class="function"><span class="title">error</span></span>    = (m,r,o)=&gt; options.error m,r,o <span class="keyword">if</span> options.error
+      opts.<span class="function"><span class="title">complete</span></span> = (m,r,o)=&gt; options.completed m,r,o <span class="keyword">if</span> options.completed 
       Backbone.sync method, model, _.extend( _.clone(options), opts  )</pre></div></div>
             
         </li>
         
         
-        <li id="section-48">
+        <li id="section-55">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-48">&#182;</a>
+                <a class="pilcrow" href="#section-55">&#182;</a>
               </div>
               <p>fetch is not supported since Batch is not for READ operations</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    fetch : (options) -&gt;
-      console.warn <span class="string">'fetch is not supported by sparse.Batch try using sparse.Collection instead'</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>    fetch : (options) -&gt; console.warn <span class="string">'fetch is not supported by sparse.Batch try using sparse.Collection instead'</span></pre></div></div>
             
         </li>
         
         
-        <li id="section-49">
+        <li id="section-56">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-49">&#182;</a>
+                <a class="pilcrow" href="#section-56">&#182;</a>
               </div>
               <p>execute the Batch Operation</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    exec : (options) -&gt;
-      <span class="property">@sync</span> <span class="string">'create'</span>, @, options</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    exec : (options) -&gt; <span class="property">@sync</span> <span class="string">'create'</span>, @, options</pre></div></div>
             
         </li>
         
         
-        <li id="section-50">
+        <li id="section-57">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-50">&#182;</a>
+                <a class="pilcrow" href="#section-57">&#182;</a>
               </div>
               <p>add a record or records to be deleted from the Server </p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    destroy : (models, options) -&gt;
-      <span class="property">@add</span> models, _.extend _.clone(options || {}), destroy:<span class="literal">true</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>    destroy : (models, options) -&gt; <span class="property">@add</span> models, _.extend _.clone(options || {}), destroy:<span class="literal">true</span></pre></div></div>
             
         </li>
         
         
-        <li id="section-51">
+        <li id="section-58">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-51">&#182;</a>
+                <a class="pilcrow" href="#section-58">&#182;</a>
               </div>
               <p>add a record or records to be added to the Server</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    save : (models, options) -&gt;
-      <span class="property">@add</span> models, options
+            <div class="content"><div class='highlight'><pre>    save : (models, options) -&gt; <span class="property">@add</span> models, options
 ).call @</pre></div></div>
             
         </li>
