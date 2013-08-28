@@ -28,8 +28,9 @@ With that said...
 DANGER WILL ROBINSON!!!
 -----------------------
 
-I just slapped this thing together over a single weekend, so for now (v0.1), it's untested, unsound and **not to be considered suitable for production use** at the moment. However, don't let that dissuade you from checking it out, making pull requests, offering some development help or filing bug reports.
-
+API Coverage is not complete, in fact it's missing core features such as Roles, Relations and Query Objects
+Due to the lack of these features, sparse is not recommended for production use at this time.
+Check back soon though, as these features are in the works.
 
 
 Basic Usage
