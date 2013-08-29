@@ -49,6 +49,7 @@ if (!global.SparseDemo) {
 
           this.events = _.extend(this.events, ModelForm.__super__.events);
           this.delegateEvents();
+          this.model.set(this.__defaults);
           this.model.on('change', function() {
             var n;
 

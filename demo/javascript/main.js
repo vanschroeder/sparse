@@ -46,12 +46,6 @@ if (!global.SparseDemo) {
             return _ref;
           }
 
-          CredentialsModal.prototype.initialize = function() {
-            return rivets.bind(this.el, {
-              access: this.model
-            });
-          };
-
           CredentialsModal.prototype.model = new (Backbone.Model.extend({
             defaults: {
               app_id: "",
@@ -65,12 +59,29 @@ if (!global.SparseDemo) {
           };
 
           CredentialsModal.prototype.hide = function(evt) {
-            evt.preventDefault();
+            if (evt) {
+              evt.preventDefault();
+            }
+            this.__rv.unbind();
+            this.__parent.off('authOK');
+            this.__parent.off('authFail');
             this.$el.modal('hide');
             return false;
           };
 
           CredentialsModal.prototype.show = function() {
+            var _this = this;
+
+            this.__rv = rivets.bind(this.el, {
+              access: this.model
+            });
+            this.model.clear();
+            this.__parent.on('authOK', function() {
+              return _this.hide();
+            });
+            this.__parent.on('authFail', function() {
+              return _this.model.clear();
+            });
             this.$el.css('top', $(window).scrollTop());
             return this.$el.modal('show');
           };
@@ -80,14 +91,16 @@ if (!global.SparseDemo) {
           };
 
           CredentialsModal.prototype.setCredentials = function(evt) {
-            return evt.preventDefault();
+            evt.preventDefault();
+            this.trigger('credentialsSaved', this.model.attributes);
+            return false;
           };
 
           CredentialsModal.prototype.init = function(o) {};
 
           return CredentialsModal;
 
-        })(Backbone.View)
+        })(SparseDemo.BaseView)
       },
       getAPIHeaders: function() {
         var _this = this;
@@ -108,6 +121,11 @@ if (!global.SparseDemo) {
         });
       },
       childrenComplete: function() {
+        var _this = this;
+
+        this['#credentialsModal'].on('credentialsSaved', (function(d) {
+          return _this.setCredentials(d.app_id, d.rest_key);
+        }));
         return this.delegateEvents();
       },
       getCredentials: function() {
@@ -122,8 +140,13 @@ if (!global.SparseDemo) {
         };
       },
       setCredentials: function(appId, restKey) {
-        $.cookie('PARSE_APP_ID', sparse.APP_ID = appId);
-        return $.cookie('PARSE_REST_KEY', sparse.REST_KEY = restKey);
+        if (("" + appId + restKey).match(/^[a-z0-9]{80}$/i)) {
+          $.cookie('PARSE_APP_ID', sparse.APP_ID = appId);
+          $.cookie('PARSE_REST_KEY', sparse.REST_KEY = restKey);
+          return this.trigger('authOK');
+        } else {
+          return this.trigger('authFail');
+        }
       },
       unsetCredentials: function() {
         $.cookie('PARSE_APP_ID', sparse.APP_ID = null);
