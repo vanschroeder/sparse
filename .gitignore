@@ -6,6 +6,7 @@
 *.exe
 *.o
 *.so
+.sass-cache
 
 # Rakefile #
 ############
@@ -18,6 +19,7 @@ node_modules/*
 # Environment settings #
 ########################
 *.env
+.project
 
 # Packages #
 ############
