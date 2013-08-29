@@ -31,6 +31,8 @@ describe 'sParse Test Suite', ->
       (sparse).Inflection.pluralize('Business').should.equal 'Businesses'
       (sparse).Inflection.pluralize('Octopus').should.equal 'Octopi' 
   describe 'sparse.Model lifecycle', ->
+    it 'sparse.Model.saveAll should be STATIC', =>
+      sparse.Model.saveAll.should.be.a 'function'
     it 'Model should be extensable', =>
       (@clazz = class Test extends (sparse.Model)).should.be.a 'function'
     it 'should safely get it\'s constructor.name', =>

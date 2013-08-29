@@ -64,37 +64,40 @@ if typeof exports != 'undefined'
       Inflection: new (->
         __uncountable_words:['equipment', 'information', 'rice', 'money', 'species', 'series','fish', 'sheep', 'moose', 'deer', 'news']
         __plural_rules:[
-          [new RegExp('(m)an$', 'gi'),                  '$1en'],
-          [new RegExp('(pe)rson$', 'gi'),               '$1ople'],
-          [new RegExp('(child)$', 'gi'),                '$1ren'],
-          [new RegExp('^(ox)$', 'gi'),                  '$1en'],
-          [new RegExp('(ax|test)is$', 'gi'),            '$1es'],
-          [new RegExp('(octop|vir)us$', 'gi'),          '$1i'],
-          [new RegExp('(alias|status)$', 'gi'),         '$1es'],
-          [new RegExp('(bu)s$', 'gi'),                  '$1ses'],
-          [new RegExp('(buffal|tomat|potat)o$', 'gi'),  '$1oes'],
-          [new RegExp('([ti])um$', 'gi'),               '$1a'],
-          [new RegExp('sis$', 'gi'),                    'ses'],
-          [new RegExp('(?:([^f])fe|([lr])f)$', 'gi'),   '$1$2ves'],
-          [new RegExp('(hive)$', 'gi'),                 '$1s'],
-          [new RegExp('([^aeiouy]|qu)y$', 'gi'),        '$1ies'],
-          [new RegExp('(x|ch|ss|sh|lens)$', 'gi'),      '$1es'],
-          [new RegExp('(matr|vert|ind)ix|ex$', 'gi'),   '$1ices'],
-          [new RegExp('([m|l])ouse$', 'gi'),            '$1ice'],
-          [new RegExp('(quiz)$', 'gi'),                 '$1zes'],
-          [new RegExp('s$', 'gi'),                      's'],
-          [new RegExp('$', 'gi'),                       's']
+          [/(m)an$/gi,                  '$1en'],
+          [/(pe)rson$/gi,               '$1ople'],
+          [/(child)$/gi,                '$1ren'],
+          [/^(ox)$/gi,                  '$1en'],
+          [/(ax|test)is$/gi,            '$1es'],
+          [/(octop|vir)us$/gi,          '$1i'],
+          [/(alias|status)$/gi,         '$1es'],
+          [/(bu)s$/gi,                  '$1ses'],
+          [/(buffal|tomat|potat)o$/gi,  '$1oes'],
+          [/([ti])um$/gi,               '$1a'],
+          [/sis$/gi,                    'ses'],
+          [/(?:([^f])fe|([lr])f)$/gi,   '$1$2ves'],
+          [/(hive)$/gi,                 '$1s'],
+          [/([^aeiouy]|qu)y$/gi,        '$1ies'],
+          [/(x|ch|ss|sh|lens)$/gi,      '$1es'],
+          [/(matr|vert|ind)ix|ex$/gi,   '$1ices'],
+          [/([m|l])ouse$/gi,            '$1ice'],
+          [/(quiz)$/gi,                 '$1zes'],
+          [/s$/gi,                      's'],
+          [/$/gi,                       's']
         ]
         # find and apply the appropriate Regex for the given string
         apply_rules: (str, rules, skip)->
           if (skip.indexOf str.toLowerCase()) == -1
-            for x in [0..rules.length]
-              return str.replace rules[x][0], rules[x][1] if (str.match rules[x][0])
+            return str.replace rx[0], rx[1] if (rx = _.find rules, (itm)=>str.match itm[0])?
           str
         # pluralizes a string
         pluralize: (str)->
           @apply_rules str, @__plural_rules, @__uncountable_words
       )
+  # OP
+  # class sparse.OP
+  # class sparse.OP.ADD
+    # objects
   #### sparse.Model
   # represents a single Parse Object Row Association
   class sparse.Model extends Backbone.Model
@@ -119,6 +122,20 @@ if typeof exports != 'undefined'
       delete data.createdAt
       delete data.updatedAt
       data
+    ## Sparse.Object API compat
+    __ops:[]
+    increment: (attr, amount)->
+      
+  ## sparse.Model.saveAll
+  # Parse API compatability, replaces Parse.Object.saveAll
+  # Sets up and executes a sparse.Batch process
+  sparse.Model.saveAll = (list, options)->
+    (new sparse.Batch list
+    ).exec 
+      complete:(m,r,o)=>
+        options.success m,r,o if options.success
+      error:(m,r,o)=>
+        options.error m,r,o if options.error
   #### sparse.Collection
   # represents a complete Parse Object and all row associations
   class sparse.Collection extends Backbone.Collection
