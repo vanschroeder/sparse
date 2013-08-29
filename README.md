@@ -95,7 +95,7 @@ var sparseTodo = sparse.Model.extend({
 
 or in *coffeescript*:
 ```
-class sparseTodo extends sparse.Model
+class ParseTodo extends Parse.Object
   className: "Todo"
  
 class sparseTodo extends sparse.Model
