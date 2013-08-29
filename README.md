@@ -8,10 +8,10 @@ A *sparse* Parse API for Backbone
 Parse.com provides a full featured and robust [Javascript API](https://parse.com/docs/api_libraries) implementation as a general purpose solution intended to work within all manner of javascript frameworks, but...
 
  - It's big... >80k big when minified
- - It only emulates Backbone and doesn't do have all Backbone features
- - Using Sparse API within a Backbone App results in having two core libraries and massive overlap of labor
+ - It only emulates Backbone and doesn't have all Backbone features
+ - Using Sparse API within a Backbone App results in having two core libraries, a massive overlap of labor
 
-Those issues are go against the ideals of developers that believe Web Apps should be small, fast and without library conflicts or duplication of operation. So it made sense to create a "not so general purpose" suite of Classes that would allow both new and existing Backbone Applications to integrate with the Parse REST API without adding substantial code overhead, requiring potentially problematic application modifications or duplicating Backbone functionality in a seperate code base.
+Those issues go against the ideals of developers who believe Web Apps should be small, fast and without duplication of labor. So it made sense to create a "not so general purpose" suite of Classes that would allow both new and existing Backbone Applications to integrate with the Parse REST API without adding substantial code overhead, or duplicating Backbone functionality in a seperate code base.
 
 **sParse's design Goals are as follows:**
 
