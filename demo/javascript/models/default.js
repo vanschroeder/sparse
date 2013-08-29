@@ -66,9 +66,9 @@ if (typeof exports !== 'undefined') {
           var className;
 
           return _this[className = "" + (k.charAt(0).toUpperCase()) + (k.substring(1, k.length))] = _this.nestCollection(className, new (sparse.Collection.extend({
-            __parse_classname: className,
+            className: className,
             model: sparse.Model.extend({
-              __parse_classname: className
+              className: className
             })
           }))(v));
         });
