@@ -7,6 +7,10 @@ Backbone.$      = require 'jQuery'
 jsonData        = require '../demo/data.json'
 server          = true
 
+if (typeof process.env.PARSE_APP_ID == 'undefined' or typeof process.env.PARSE_REST_KEY == 'undefined')
+  console.error 'Failure: PARSE_APP_ID and PARSE_REST_KEY are required to be set in your env vars to run tests'
+  process.exit 1
+
 describe 'sParse Test Suite', ->
   it 'should exist', =>
     (sparse).should.be.a 'object'
