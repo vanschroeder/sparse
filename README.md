@@ -83,13 +83,22 @@ Converting Parse Apps
 Simply rename your Parse.Object and Parse.Collection references to sparse.Model and sparse.Collection accordingly
 
 ```
-var BackboneTodo = Parse.Object.extend({
+var ParseTodo = Parse.Object.extend({
   className: "Todo"
 });
  
-var ParseTodo = sparse.Model.extend({
+var sparseTodo = sparse.Model.extend({
   className: "Todo"
 });
+```
+
+
+or in *coffeescript*:
+```
+class sparseTodo extends sparse.Model
+  className: "Todo"
+ 
+class sparseTodo extends sparse.Model
 ```
 
 
