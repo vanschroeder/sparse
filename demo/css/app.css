@@ -1,0 +1,228 @@
+/* line 6, ../../src/scss/app.scss */
+html,
+body {
+  -webkit-transform: translate3d(0px, 0px, 0px);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  padding-top: 0px !important;
+  margin-top: -20px !important;
+}
+/* line 14, ../../src/scss/app.scss */
+html .taped,
+body .taped {
+  display: inline-block;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  line-height: -5px;
+  position: relative;
+  background-color: #a90329;
+  *zoom: 1;
+  filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFA90329', endColorstr='#FF6D0019');
+  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSI0NiUiIHN0b3AtY29sb3I9IiNhOTAzMjkiLz48c3RvcCBvZmZzZXQ9IjQ4JSIgc3RvcC1jb2xvcj0iIzhmMDIyMiIvPjxzdG9wIG9mZnNldD0iNzIlIiBzdG9wLWNvbG9yPSIjNmQwMDE5Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g');
+  background-size: 100%;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(46%, #a90329), color-stop(48%, #8f0222), color-stop(72%, #6d0019));
+  background-image: -webkit-linear-gradient(top, #a90329 46%, #8f0222 48%, #6d0019 72%);
+  background-image: -moz-linear-gradient(top, #a90329 46%, #8f0222 48%, #6d0019 72%);
+  background-image: -o-linear-gradient(top, #a90329 46%, #8f0222 48%, #6d0019 72%);
+  background-image: linear-gradient(top, #a90329 46%, #8f0222 48%, #6d0019 72%);
+  color: #FFF;
+  letter-spacing: 0.23em;
+  font-weight: 100;
+  text-shadow: -1px -1px 3px #e5e5e5, 1px 0px 3px #333,0px 0px 5px #FFF;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  -o-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transform: rotate(-4deg);
+  -moz-transform: rotate(-4deg);
+  -ms-transform: rotate(-4deg);
+  -o-transform: rotate(-4deg);
+  transform: rotate(-4deg);
+  padding: 6px;
+  border-top: 1px solid #FF0900;
+  border-left: 1px solid #FF0900;
+  -webkit-box-shadow: 1px 1px 2px #555555;
+  -moz-box-shadow: 1px 1px 2px #555555;
+  box-shadow: 1px 1px 2px #555555;
+}
+/* line 37, ../../src/scss/app.scss */
+html header,
+body header {
+  color: #666;
+  background-color: #f8f8f8;
+  padding-top: 12px;
+  padding-left: 12px;
+}
+/* line 44, ../../src/scss/app.scss */
+html header .title,
+body header .title {
+  font-size: 3.2em;
+  font-weight: 200;
+}
+/* line 52, ../../src/scss/app.scss */
+html #main.container,
+body #main.container {
+  padding-top: 40px;
+  min-height: 800px;
+}
+/* line 58, ../../src/scss/app.scss */
+html #main.container .title,
+body #main.container .title {
+  color: #666;
+  margin-top: 2px !important;
+  padding-left: 12px;
+  padding-top: 4px !important;
+}
+@media (max-width: 480px) and (orientation: portrait) {
+  /* line 66, ../../src/scss/app.scss */
+  html #main.container .taped,
+  body #main.container .taped {
+    left: -40px !important;
+  }
+}
+/* line 74, ../../src/scss/app.scss */
+html #main.container .alert.alert-info strong,
+body #main.container .alert.alert-info strong {
+  padding-right: 12px;
+  font-weight: 900;
+}
+/* line 82, ../../src/scss/app.scss */
+html #main.container #credentials .form-control,
+body #main.container #credentials .form-control {
+  margin-bottom: 8px;
+}
+/* line 88, ../../src/scss/app.scss */
+html #main.container section,
+body #main.container section {
+  display: block;
+  background-color: #f8f8f8;
+  border: 1px #dfdfdf solid;
+  border-radius: 2px;
+  margin: none;
+  margin-bottom: 60px !important;
+  padding: 12px;
+  padding-top: 0px !important;
+}
+/* line 99, ../../src/scss/app.scss */
+html #main.container section:last-of-kind,
+body #main.container section:last-of-kind {
+  margin-bottom: 0px !important;
+}
+/* line 104, ../../src/scss/app.scss */
+html #main.container section .taped,
+body #main.container section .taped {
+  top: -40px;
+}
+/* line 109, ../../src/scss/app.scss */
+html #main.container section .container > div,
+body #main.container section .container > div {
+  text-align: left;
+}
+/* line 114, ../../src/scss/app.scss */
+html #main.container section table,
+body #main.container section table {
+  width: 100%;
+  border: 1px solid #ccc;
+}
+/* line 119, ../../src/scss/app.scss */
+html #main.container section table .query-usage-info,
+body #main.container section table .query-usage-info {
+  text-align: center;
+  color: #ccc;
+}
+/* line 123, ../../src/scss/app.scss */
+html #main.container section table .query-usage-info span,
+body #main.container section table .query-usage-info span {
+  display: inline-block;
+  margin-bottom: 10px !important;
+  font-weight: 700;
+}
+/* line 133, ../../src/scss/app.scss */
+html #main.container section form,
+body #main.container section form {
+  padding: none !important;
+}
+/* line 137, ../../src/scss/app.scss */
+html #main.container section form .row,
+body #main.container section form .row {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+/* line 143, ../../src/scss/app.scss */
+html #main.container section form .form-group,
+body #main.container section form .form-group {
+  margin-top: 8px;
+}
+/* line 146, ../../src/scss/app.scss */
+html #main.container section form .form-group span.form-control,
+body #main.container section form .form-group span.form-control {
+  display: block;
+  min-width: 160px !important;
+  overflow: none;
+}
+/* line 154, ../../src/scss/app.scss */
+html #main.container section form .form-group #user_password,
+body #main.container section form .form-group #user_password {
+  display: block;
+  min-width: 238px !important;
+}
+/* line 160, ../../src/scss/app.scss */
+html #main.container section form .form-group #submit_query,
+body #main.container section form .form-group #submit_query {
+  position: relative;
+  top: 20px;
+}
+/* line 167, ../../src/scss/app.scss */
+html #main.container section form textarea,
+body #main.container section form textarea {
+  display: block;
+  color: #999;
+  width: 100%;
+  min-height: 400px;
+  resize: none;
+  overflow: auto;
+}
+/* line 175, ../../src/scss/app.scss */
+html #main.container section form textarea::-webkit-input-placeholder,
+body #main.container section form textarea::-webkit-input-placeholder {
+  color: #ccc;
+  font-size: 2em;
+  font-weight: 200;
+  text-align: center;
+  padding-top: 170px;
+}
+/* line 183, ../../src/scss/app.scss */
+html #main.container section form textarea:-moz-placeholder,
+body #main.container section form textarea:-moz-placeholder {
+  color: #999;
+  font-size: 2em;
+  font-weight: 200;
+  text-align: center;
+  padding-top: 170px;
+}
+/* line 191, ../../src/scss/app.scss */
+html #main.container section form textarea::-moz-placeholder,
+body #main.container section form textarea::-moz-placeholder {
+  color: #999;
+  font-size: 2em;
+  font-weight: 200;
+  text-align: center;
+  padding-top: 170px;
+}
+/* line 199, ../../src/scss/app.scss */
+html #main.container section form textarea:-ms-input-placeholder,
+body #main.container section form textarea:-ms-input-placeholder {
+  color: #999;
+  font-size: 2em;
+  font-weight: 200;
+  text-align: center;
+  padding-top: 170px;
+}
+/* line 214, ../../src/scss/app.scss */
+html footer,
+body footer {
+  border-top: 1px #dfdfdf solid;
+  margin-top: 40px !important;
+  background-color: #f8f8f8;
+  min-height: 120px;
+}
