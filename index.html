@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>sParse by vancarney</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>sParse</h1>
+        <h2>Parse Rest API support for Backbone </h2>
+        <a href="https://github.com/vancarney/sparse" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="sparse" class="anchor" href="#sparse"><span class="octicon octicon-link"></span></a>sParse</h1>
+
+<p>A <em>sparse</em> Parse API for Backbone</p>
+
+<h4>
+<a name="why-sparse" class="anchor" href="#why-sparse"><span class="octicon octicon-link"></span></a>Why sParse?</h4>
+
+<p>Parse.com provides a full featured and robust <a href="https://parse.com/docs/api_libraries">Javascript API</a> implementation as a general purpose solution intended to work within all manner of javascript frameworks, but...</p>
+
+<ul>
+<li>It's big... &gt;80k big when minified</li>
+<li>It only emulates Backbone and doesn't have all Backbone features</li>
+<li>Using Sparse API within a Backbone App results in having two core libraries, a massive overlap of labor</li>
+</ul><p>Those issues go against the ideals of developers who believe Web Apps should be small, fast and without duplication of labor. So it made sense to create a "not so general purpose" suite of Classes that would allow both new and existing Backbone Applications to integrate with the Parse REST API without adding substantial code overhead, or duplicating Backbone functionality in a seperate code base.</p>
+
+<p><strong>sParse's design Goals are as follows:</strong></p>
+
+<ul>
+<li>Be small, compact and simple</li>
+<li>Go wherever Backbone can go with no added dependencies</li>
+<li>'Drop In' to any existing Backbone Application</li>
+<li>Quickly 'Convert' your existing Parse API app into a sParse Backbone App</li>
+<li>Provide complete Parse REST API coverage (in progress)</li>
+</ul><p>With that said...</p>
+
+<h2>
+<a name="danger-will-robinson" class="anchor" href="#danger-will-robinson"><span class="octicon octicon-link"></span></a>DANGER WILL ROBINSON!!!</h2>
+
+<p>API Coverage is not complete, in fact it's missing core features such as Roles, Relations and Query Objects
+Due to the lack of these features, sparse is not recommended for production use at this time.
+Check back soon though, as these features are in the works.</p>
+
+<h2>
+<a name="basic-usage" class="anchor" href="#basic-usage"><span class="octicon octicon-link"></span></a>Basic Usage</h2>
+
+<h4>
+<a name="accessing-a-parse-collection" class="anchor" href="#accessing-a-parse-collection"><span class="octicon octicon-link"></span></a>Accessing a Parse Collection</h4>
+
+<p>Case: We wish to get all records from the Posts Object</p>
+
+<p><em>javascript</em> example:</p>
+
+<pre><code>sparse.APP_ID = XXXXXXXXXX;
+sparse.REST_KEY = XXXXXXXXXX;
+Posts = sparse.Collection.extend({
+     className:'Posts',
+    model:(sparse.Model.extend({
+        className:'Post',
+        defaults:{
+            body:"",
+            userKey:"",
+            contentKey:""
+        }
+    }));
+})
+posts = new Posts();
+posts.fetch();
+
+</code></pre>
+
+<p><em>coffeescript</em> example:</p>
+
+<pre><code>sparse.APP_ID = XXXXXXXXXX
+sparse.REST_KEY = XXXXXXXXXX
+class Posts extends sparse.Collection
+    model:(class Post extends sparse.Model
+        defaults:
+            body:""
+            userKey:""
+            contentKey:""
+    )
+posts = new Posts()
+posts.fetch();
+</code></pre>
+
+<p>sParse is wired to make life a little easier for <a href="http://coffeescript.org/">Coffeescript</a> users by grabbing the classname and automatically setting the <code>className</code> param for you, with an Inflection to plualize the Model Class Name for you, mapping <code>Model</code> <em>Post</em> to the <em>Posts</em> Object.</p>
+
+<h2>
+<a name="converting-parse-apps-" class="anchor" href="#converting-parse-apps-"><span class="octicon octicon-link"></span></a>Converting Parse Apps </h2>
+
+<p>Simply rename your Parse.Object and Parse.Collection references to sparse.Model and sparse.Collection accordingly</p>
+
+<pre><code>var ParseTodo = Parse.Object.extend({
+  className: "Todo"
+});
+
+var sparseTodo = sparse.Model.extend({
+  className: "Todo"
+});
+</code></pre>
+
+<p>or in <em>coffeescript</em>:</p>
+
+<pre><code>class ParseTodo extends Parse.Object
+  className: "Todo"
+
+class sparseTodo extends sparse.Model
+</code></pre>
+
+<h2>
+<a name="users-" class="anchor" href="#users-"><span class="octicon octicon-link"></span></a>Users </h2>
+
+<h4>
+<a name="register-a-new-user" class="anchor" href="#register-a-new-user"><span class="octicon octicon-link"></span></a>Register a New User</h4>
+
+<p><em>javascript</em> example:</p>
+
+<pre><code>sparse.APP_ID = XXXXXXXXXX;
+sparse.REST_KEY = XXXXXXXXXX;
+newUser = new sparse.User({
+    username:"EdTesty",
+    password:"s3cr3t",
+    email:"ed.testy.testing.com"
+})
+newUser.save({
+    success:function(model, response, options) {
+        console.log("user successfully created"
+    },
+    error:function(model, response, options) {
+        console.log("user creation failed"
+    }
+});
+
+</code></pre>
+
+<p><em>coffeescript</em> example:</p>
+
+<pre><code>sparse.APP_ID = XXXXXXXXXX;
+sparse.REST_KEY = XXXXXXXXXX;
+newUser = new sparse.User
+    username:"EdTesty"
+    password:"s3cr3t"
+    email:"ed.testy.testing.com"
+newUser.save
+    success:(model, response, options)-&gt;
+        console.log "user successfully created"
+    error:(model, response, options)-&gt;
+        console.log "user creation failed"
+</code></pre>
+
+<h4>
+<a name="user-login" class="anchor" href="#user-login"><span class="octicon octicon-link"></span></a>User Login</h4>
+
+<p><em>javascript</em> example:</p>
+
+<pre><code>sparse.APP_ID = XXXXXXXXXX;
+sparse.REST_KEY = XXXXXXXXXX;
+user = new sparse.User({
+    username:"EdTesty",
+    password:"s3cr3t"
+})
+user.login({
+    success:function(model, response, options) {
+        console.log("user successfully created");
+    },
+    error:function(model, response, options) {
+        console.log("user creation failed");
+    }
+});
+
+</code></pre>
+
+<p><em>coffeescript</em> example:</p>
+
+<pre><code>sparse.APP_ID = XXXXXXXXXX;
+sparse.REST_KEY = XXXXXXXXXX;
+user = new sparse.User
+    username:"EdTesty",
+    password:"s3cr3t"
+user.login
+    success:(model, response, options)-&gt;
+        console.log "user successfully created"
+    error:(model, response, options)-&gt;
+        console.log "user creation failed"
+</code></pre>
+
+<h4>
+<a name="user-password-reset" class="anchor" href="#user-password-reset"><span class="octicon octicon-link"></span></a>User Password Reset</h4>
+
+<p><em>javascript</em> example:</p>
+
+<pre><code>sparse.APP_ID = XXXXXXXXXX;
+sparse.REST_KEY = XXXXXXXXXX;
+pwReset = new sparse.User({
+    email:"ed.testy@test.com"
+})
+pwReset.resetPassword({
+    success:function(model, response, options) {
+        console.log("user successfully created");
+    },
+    error:function(model, response, options) {
+        console.log("user creation failed");
+    }
+});
+
+</code></pre>
+
+<p><em>coffeescript</em> example:</p>
+
+<pre><code>sparse.APP_ID = XXXXXXXXXX;
+sparse.REST_KEY = XXXXXXXXXX;
+pwReset = new sparse.User
+    email:"ed.testy@test.com"
+pwReset.resetPassword
+    success:(model, response, options)-&gt;
+        console.log "user successfully created"
+    error:(model, response, options)-&gt;
+        console.log "user creation failed"
+</code></pre>
+
+<h2>
+<a name="batch-operations" class="anchor" href="#batch-operations"><span class="octicon octicon-link"></span></a>Batch Operations</h2>
+
+<p>Sometimes you may want to throw a whole bunch of data at the Parse API all at once. For that we use the Parse API's Batch Request feature, which is supported by sParse via a special Batch Collection Object.</p>
+
+<p>sparse.Batch is Object Agnostic, so you may add any type of sparse.Model object for <code>create</code>, <code>upate</code> and <code>delete</code> operations.
+For more info on Parse Batch read the <a href="https://parse.com/docs/rest#objects-batch">API Docs</a></p>
+
+<p><em>javascript</em> example:</p>
+
+<pre><code>sparse.APP_ID = XXXXXXXXXX;
+sparse.REST_KEY = XXXXXXXXXX;
+Posts = sparse.Collection.extend({
+    className:'Posts',
+    model:(sparse.Model.extend({
+        className:'Post',
+        defaults:{
+            body:"",
+            userKey:"",
+            contentKey:""
+        }
+    }));
+})
+posts = new Posts();
+posts.fetch({
+    success:function(model,response,options)
+    {
+        # send our loaded Data Set to Batch
+        (new sparse.Batch(model).exec({
+            success:function(model,response,options) {
+                console.log("Batch imported successfully");
+            },
+            error:function(model,response,options) {
+                console.log("Batch import failed");
+            },
+        }); 
+    }
+});
+</code></pre>
+
+<p><em>coffeescript</em> example: </p>
+
+<pre><code>sparse.APP_ID = XXXXXXXXXX
+sparse.REST_KEY = XXXXXXXXXX
+class Posts extends sparse.Collection
+    url:-&gt;
+        "data/posts.dump.json"
+    model:(class Post extends sparse.Model
+        defaults:
+            body:""
+            userKey:""
+            contentKey:""
+    )
+posts = new Posts()
+posts.fetch
+    success:(model,response,options)=&gt;
+        # send our loaded Data Set to Batch
+        (new sparse.Batch model).exec
+            success:(model,response,options)=&gt;
+                console.log "Batch imported successfully"
+            error:(model,response,options)=&gt;
+                console.log "Batch import failed"
+
+</code></pre>
+
+<h2>
+<a name="view-the-demo" class="anchor" href="#view-the-demo"><span class="octicon octicon-link"></span></a>View the Demo</h2>
+
+<p>A working Connect Server based demo app is available in the repo
+Git and NodeJS+NPM is required to install and run</p>
+
+<pre><code>$ git clone https://github.com/vancarney/sparse.git &amp;&amp; cd sparse &amp;&amp; npm install &amp;&amp; npm start
+</code></pre>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/vancarney/sparse/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/vancarney/sparse/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/vancarney/sparse"></a> is maintained by <a href="https://github.com/vancarney">vancarney</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
