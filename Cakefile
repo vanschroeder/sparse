@@ -32,6 +32,7 @@ exts='coffee|jade'
 # Callback From 'coffee'
 coffeeCallback=()->
   exec 'cp lib/sparse.js ../sparse-demo/src/assets/javascript'
+  minify()
 # Callback From 'docco'
 doccoCallback=()->
   exec "rm -rf ../sparse-pages/docs; mv docs ../sparse-pages"
@@ -53,12 +54,7 @@ watch = ()->
 # Minify Generated JS and HTML
 task 'minify', 'Minify Generated JS and HTML', ()-> minify -> log ':)', green
 minify = ()->
-  # minify js and html paths
-  if paths? and paths.uglify?
-    walk paths.uglify[0], (err, results) =>
-      for file in results
-        if file.match /(^\.min+)\.js+$/
-          launch 'uglifyjs', ['-c', '--output', "#{file.replace /\.js+$/,'.min.js'}", file]
+  exec 'uglifyjs -c --output lib/sparse.min.js lib/sparse.js'
 
 # ## *docs*
 # Generate Documentation

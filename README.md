@@ -42,6 +42,7 @@ Basic Usage
 Case: We wish to get all records from the Posts Object
 
 *javascript* example:
+
 ```
 sparse.APP_ID = XXXXXXXXXX;
 sparse.REST_KEY = XXXXXXXXXX;
@@ -63,6 +64,7 @@ posts.fetch();
 
 
 *coffeescript* example:
+
 ```
 sparse.APP_ID = XXXXXXXXXX
 sparse.REST_KEY = XXXXXXXXXX
@@ -96,6 +98,7 @@ var sparseTodo = sparse.Model.extend({
 
 
 or in *coffeescript*:
+
 ```
 class ParseTodo extends Parse.Object
   className: "Todo"
@@ -110,6 +113,7 @@ Users
 #### Register a New User
 
 *javascript* example:
+
 ```
 sparse.APP_ID = XXXXXXXXXX;
 sparse.REST_KEY = XXXXXXXXXX;
@@ -130,6 +134,7 @@ newUser.save({
 ```
 
 *coffeescript* example:
+
 ```
 sparse.APP_ID = XXXXXXXXXX;
 sparse.REST_KEY = XXXXXXXXXX;
@@ -147,6 +152,7 @@ newUser.save
 #### User Login
 
 *javascript* example:
+
 ```
 sparse.APP_ID = XXXXXXXXXX;
 sparse.REST_KEY = XXXXXXXXXX;
@@ -166,6 +172,7 @@ user.login({
 ```
 
 *coffeescript* example:
+
 ```
 sparse.APP_ID = XXXXXXXXXX;
 sparse.REST_KEY = XXXXXXXXXX;
@@ -183,6 +190,7 @@ user.login
 #### User Password Reset
 
 *javascript* example:
+
 ```
 sparse.APP_ID = XXXXXXXXXX;
 sparse.REST_KEY = XXXXXXXXXX;
@@ -201,6 +209,7 @@ pwReset.resetPassword({
 ```
 
 *coffeescript* example:
+
 ```
 sparse.APP_ID = XXXXXXXXXX;
 sparse.REST_KEY = XXXXXXXXXX;
@@ -223,6 +232,7 @@ sparse.Batch is Object Agnostic, so you may add any type of sparse.Model object 
 For more info on Parse Batch read the [API Docs](https://parse.com/docs/rest#objects-batch)
 
 *javascript* example:
+
 ```
 sparse.APP_ID = XXXXXXXXXX;
 sparse.REST_KEY = XXXXXXXXXX;
@@ -255,7 +265,8 @@ posts.fetch({
 ``` 
 
 
-*coffeescript* example: 
+*coffeescript* example:
+
 ```
 sparse.APP_ID = XXXXXXXXXX
 sparse.REST_KEY = XXXXXXXXXX
