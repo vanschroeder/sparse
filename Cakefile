@@ -69,7 +69,7 @@ docs = ()->
   if (moduleExists 'docco') && paths? && paths.coffee?
     walk paths.coffee[1], (err, paths) ->
       try
-        launch 'docco', paths, doccoCallback()
+        launch 'docco', paths, doccoCallback
       catch e
         error e
 
