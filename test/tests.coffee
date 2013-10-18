@@ -40,6 +40,7 @@ describe 'sParse Test Suite', ->
     it 'should have a pluralized Parse API Class Name', =>
       (@testModel).className.should.equal 'Tests'
     it 'should save Data to the Parse API', (done)=>
+      @timeout 15000
       o = 
         name:"A Test"
         description: "Testing Object create via Parse API"
@@ -50,6 +51,7 @@ describe 'sParse Test Suite', ->
     it 'should have an ObjectID after saving', =>
       (@testModel.get 'objectId').should.not.equal null
     it 'should update Data to the Parse API', (done)=>
+      @timeout 15000
       o = 
         active:true
       h = 

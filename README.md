@@ -28,8 +28,8 @@ With that said...
 DANGER WILL ROBINSON!!!
 -----------------------
 
-API Coverage is not complete, in fact it's missing core features such as Roles, Relations and Query Objects
-Due to the lack of these features, sparse is not recommended for production use at this time.
+sParse is presently in Alpha and API Coverage is not complete, in fact it's missing core features such as Roles, Relations and Query Objects
+Due to the lack of these features, sParse is not recommended for production use at this time.
 Check back soon though, as these features are in the works.
 
 
@@ -283,9 +283,9 @@ View the Demo
 
 [View The Online Demo @github.io](http://vancarney.github.io/sparse/demo/)
 
-Additionally a working Connect Server based demo app is available in the repo
-Git and NodeJS+NPM is required to install and run
+Additionally a working Connect Server based Demo App is available in the [sParse-Demo Repo](https://github.com/vancarney/sparse-demo.git)
+Git and NodeJS+NPM are required to install and run
 
 ```
-$ git clone https://github.com/vancarney/sparse-demo.git && cd sparse && npm install && npm start
+$ git clone https://github.com/vancarney/sparse-demo.git && cd sparse-demo && npm install && npm start
 ```

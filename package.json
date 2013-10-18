@@ -2,8 +2,7 @@
   "author": "Van Carney <carney.van@gmail.com>",
   "name": "sparse",
   "description": "A sparse Parse API for Backbone",
-  "preferGlobal": false,
-  "version": "0.1.1",
+  "version": "0.2.1-alpha",
   "main":"lib/sparse.js",
   "licenses": [
     {
@@ -30,7 +29,7 @@
     "docco": "~0.6.2",
     "uglify-js": "1.3.5"
   },
-  "homepage": "http://github.com/vancarney/sparse.git",
+  "homepage": "http://vancarney.github.io/sparse/",
   "scripts": {
     "test": "cake test"
   }

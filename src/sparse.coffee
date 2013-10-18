@@ -18,7 +18,7 @@ if typeof exports != 'undefined'
   if !global.sparse
     sparse = global.sparse =
       # Our current version
-      VERSION:"0.0.1"
+      VERSION:"0.2.1-alpha"
       # APP_ID stores the Parse API Application Identifier
       APP_ID:undefined
       # REST_KEY stores the Parse API REST Access Key
