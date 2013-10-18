@@ -1,6 +1,6 @@
 {
   "author": "Van Carney <carney.van@gmail.com>",
-  "name": "sparse",
+  "name": "sParse",
   "description": "A sparse Parse API for Backbone",
   "version": "0.2.1-alpha",
   "main":"lib/sparse.js",
