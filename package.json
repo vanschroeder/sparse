@@ -2,6 +2,7 @@
   "author": "Van Carney <carney.van@gmail.com>",
   "name": "sparse-api",
   "description": "A sparse Parse API for Backbone",
+  "keywords": ["parse", "rest", "api", "db", "backbone", "underscore", "database", "data", "objects", "user", "role", "batch", "model", "collection", "coffeescript"],
   "version": "0.2.1-alpha",
   "main":"lib/sparse.js",
   "licenses": [
