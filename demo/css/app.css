@@ -59,13 +59,28 @@ body header .title {
   font-size: 3.2em;
   font-weight: 200;
 }
-/* line 52, ../../src/scss/app.scss */
+/* line 50, ../../src/scss/app.scss */
+html header .home-link,
+body header .home-link {
+  margin-top: -33px;
+  margin-right: 8px;
+  font-size: 1.1em;
+}
+@media (max-width: 480px) and (orientation: portrait) {
+  /* line 50, ../../src/scss/app.scss */
+  html header .home-link,
+  body header .home-link {
+    margin-top: -80px !important;
+    float: left !important;
+  }
+}
+/* line 64, ../../src/scss/app.scss */
 html #main.container,
 body #main.container {
   padding-top: 40px;
   min-height: 800px;
 }
-/* line 58, ../../src/scss/app.scss */
+/* line 70, ../../src/scss/app.scss */
 html #main.container .title,
 body #main.container .title {
   color: #666;
@@ -74,24 +89,24 @@ body #main.container .title {
   padding-top: 4px !important;
 }
 @media (max-width: 480px) and (orientation: portrait) {
-  /* line 66, ../../src/scss/app.scss */
+  /* line 78, ../../src/scss/app.scss */
   html #main.container .taped,
   body #main.container .taped {
     left: -40px !important;
   }
 }
-/* line 74, ../../src/scss/app.scss */
+/* line 86, ../../src/scss/app.scss */
 html #main.container .alert.alert-info strong,
 body #main.container .alert.alert-info strong {
   padding-right: 12px;
   font-weight: 900;
 }
-/* line 82, ../../src/scss/app.scss */
+/* line 94, ../../src/scss/app.scss */
 html #main.container #credentials .form-control,
 body #main.container #credentials .form-control {
   margin-bottom: 8px;
 }
-/* line 88, ../../src/scss/app.scss */
+/* line 100, ../../src/scss/app.scss */
 html #main.container section,
 body #main.container section {
   display: block;
@@ -103,76 +118,76 @@ body #main.container section {
   padding: 12px;
   padding-top: 0px !important;
 }
-/* line 99, ../../src/scss/app.scss */
+/* line 111, ../../src/scss/app.scss */
 html #main.container section:last-of-kind,
 body #main.container section:last-of-kind {
   margin-bottom: 0px !important;
 }
-/* line 104, ../../src/scss/app.scss */
+/* line 116, ../../src/scss/app.scss */
 html #main.container section .taped,
 body #main.container section .taped {
   top: -40px;
 }
-/* line 109, ../../src/scss/app.scss */
+/* line 121, ../../src/scss/app.scss */
 html #main.container section .container > div,
 body #main.container section .container > div {
   text-align: left;
 }
-/* line 114, ../../src/scss/app.scss */
+/* line 126, ../../src/scss/app.scss */
 html #main.container section table,
 body #main.container section table {
   width: 100%;
   border: 1px solid #ccc;
 }
-/* line 119, ../../src/scss/app.scss */
+/* line 131, ../../src/scss/app.scss */
 html #main.container section table .query-usage-info,
 body #main.container section table .query-usage-info {
   text-align: center;
   color: #ccc;
 }
-/* line 123, ../../src/scss/app.scss */
+/* line 135, ../../src/scss/app.scss */
 html #main.container section table .query-usage-info span,
 body #main.container section table .query-usage-info span {
   display: inline-block;
   margin-bottom: 10px !important;
   font-weight: 700;
 }
-/* line 133, ../../src/scss/app.scss */
+/* line 145, ../../src/scss/app.scss */
 html #main.container section form,
 body #main.container section form {
   padding: none !important;
 }
-/* line 137, ../../src/scss/app.scss */
+/* line 149, ../../src/scss/app.scss */
 html #main.container section form .row,
 body #main.container section form .row {
   padding-left: 12px;
   padding-right: 12px;
 }
-/* line 143, ../../src/scss/app.scss */
+/* line 155, ../../src/scss/app.scss */
 html #main.container section form .form-group,
 body #main.container section form .form-group {
   margin-top: 8px;
 }
-/* line 146, ../../src/scss/app.scss */
+/* line 158, ../../src/scss/app.scss */
 html #main.container section form .form-group span.form-control,
 body #main.container section form .form-group span.form-control {
   display: block;
   min-width: 160px !important;
   overflow: none;
 }
-/* line 154, ../../src/scss/app.scss */
+/* line 166, ../../src/scss/app.scss */
 html #main.container section form .form-group #user_password,
 body #main.container section form .form-group #user_password {
   display: block;
   min-width: 238px !important;
 }
-/* line 160, ../../src/scss/app.scss */
+/* line 172, ../../src/scss/app.scss */
 html #main.container section form .form-group #submit_query,
 body #main.container section form .form-group #submit_query {
   position: relative;
   top: 20px;
 }
-/* line 167, ../../src/scss/app.scss */
+/* line 179, ../../src/scss/app.scss */
 html #main.container section form textarea,
 body #main.container section form textarea {
   display: block;
@@ -182,7 +197,7 @@ body #main.container section form textarea {
   resize: none;
   overflow: auto;
 }
-/* line 175, ../../src/scss/app.scss */
+/* line 187, ../../src/scss/app.scss */
 html #main.container section form textarea::-webkit-input-placeholder,
 body #main.container section form textarea::-webkit-input-placeholder {
   color: #ccc;
@@ -191,7 +206,7 @@ body #main.container section form textarea::-webkit-input-placeholder {
   text-align: center;
   padding-top: 170px;
 }
-/* line 183, ../../src/scss/app.scss */
+/* line 195, ../../src/scss/app.scss */
 html #main.container section form textarea:-moz-placeholder,
 body #main.container section form textarea:-moz-placeholder {
   color: #999;
@@ -200,7 +215,7 @@ body #main.container section form textarea:-moz-placeholder {
   text-align: center;
   padding-top: 170px;
 }
-/* line 191, ../../src/scss/app.scss */
+/* line 203, ../../src/scss/app.scss */
 html #main.container section form textarea::-moz-placeholder,
 body #main.container section form textarea::-moz-placeholder {
   color: #999;
@@ -209,7 +224,7 @@ body #main.container section form textarea::-moz-placeholder {
   text-align: center;
   padding-top: 170px;
 }
-/* line 199, ../../src/scss/app.scss */
+/* line 211, ../../src/scss/app.scss */
 html #main.container section form textarea:-ms-input-placeholder,
 body #main.container section form textarea:-ms-input-placeholder {
   color: #999;
@@ -218,7 +233,7 @@ body #main.container section form textarea:-ms-input-placeholder {
   text-align: center;
   padding-top: 170px;
 }
-/* line 214, ../../src/scss/app.scss */
+/* line 226, ../../src/scss/app.scss */
 html footer,
 body footer {
   border-top: 1px #dfdfdf solid;

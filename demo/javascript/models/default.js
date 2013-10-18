@@ -51,7 +51,7 @@ if (typeof exports !== 'undefined') {
     }
 
     DefaultData.prototype.url = function() {
-      return '/data.json';
+      return 'data.json';
     };
 
     DefaultData.prototype.sync = function(method, model, options) {
