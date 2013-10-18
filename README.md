@@ -3,6 +3,8 @@ sParse
 
 A *sparse* Parse API for Backbone
 
+[![Build Status](https://travis-ci.org/vancarney/sparse.png)](https://travis-ci.org/vancarney/sparse)
+
 #### Why sParse?
 
 Parse.com provides a full featured and robust [Javascript API](https://parse.com/docs/api_libraries) implementation as a general purpose solution intended to work within all manner of javascript frameworks, but...
