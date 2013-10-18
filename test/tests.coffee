@@ -4,7 +4,7 @@ _               = (require 'underscore')._
 Backbone        = require 'backbone'
 Backbone.$      = require 'jQuery'
 {sparse}        = require '../src/sparse.coffee'
-jsonData        = require '../demo/data.json'
+jsonData        = require './data.json'
 server          = true
 
 if (typeof process.env.PARSE_APP_ID == 'undefined' or typeof process.env.PARSE_REST_KEY == 'undefined')

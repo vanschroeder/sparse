@@ -3,7 +3,7 @@
   "name": "sparse",
   "description": "A sparse Parse API for Backbone",
   "preferGlobal": false,
-  "version": "0.0.1",
+  "version": "0.1.1",
   "main":"lib/sparse.js",
   "licenses": [
     {
@@ -32,7 +32,6 @@
   },
   "homepage": "http://github.com/vancarney/sparse.git",
   "scripts": {
-    "test": "cake test",
-    "start": "node demo-server"
+    "test": "cake test"
   }
 }

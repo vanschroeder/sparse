@@ -281,9 +281,11 @@ posts.fetch
 View the Demo
 --------------
 
-A working Connect Server based demo app is available in the repo
+[View The Online Demo @github.io](http://vancarney.github.io/sparse/demo/)
+
+Additionally a working Connect Server based demo app is available in the repo
 Git and NodeJS+NPM is required to install and run
 
 ```
-$ git clone https://github.com/vancarney/sparse.git && cd sparse && npm install && npm start
+$ git clone https://github.com/vancarney/sparse-demo.git && cd sparse && npm install && npm start
 ```

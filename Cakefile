@@ -34,7 +34,7 @@ coffeeCallback=()->
   exec 'cp lib/sparse.js ../sparse-demo/src/assets/javascript'
 # Callback From 'docco'
 doccoCallback=()->
-
+  exec "rm -rf ../sparse-pages/docs; mv docs ../sparse-pages"
 # Begin Tasks
 # ## *build*
 # Compiles Sources
@@ -43,14 +43,6 @@ build = ()->
   # From Module 'coffee'
   # Enable coffee-script compiling
   launch 'coffee', (['-c', '-b', '-o' ].concat paths.coffee), coffeeCallback
-  
-task 'run', 'run demo in stand-alone web server (uses connect)', ()-> run()
-run = ()->
-  connect(
-  ).use(connect.logger 'demo'
-  ).use(connect.static 'demo'
-  ).use( (req, res)-> res.end '' 
-  ).listen 3000
 
 # ## *watch*
 # watch project src folders and build on change
