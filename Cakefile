@@ -5,6 +5,7 @@ connect = require 'connect'
 {debug, error, log, print} = require 'util'
 # import Spawn and Exec from child_process
 {spawn, exec, execFile}=require 'child_process'
+fList = require './src/manifest.json'
 # colors
 red   = "\u001b[0;31m"
 green = "\u001b[0;32m"
@@ -42,9 +43,11 @@ doccoCallback=()->
 task 'build', 'Compiles Sources', ()-> build -> log ':)', green
 build = ()->
   # From Module 'coffee'
+  
   # Enable coffee-script compiling
-  launch 'coffee', (['-c', '-b', '-o' ].concat paths.coffee), coffeeCallback
-
+  #launch 'coffee', (['-j','lib/sparse.js', '-c', 'src/sparse.coffee', 'src/classes/*']), coffeeCallback
+  console.log "coffee --join lib/sparse.js --compile #{fList.files.join(' ').replace(/('|\")/g, '')}"
+  exec "coffee --join lib/sparse.js --compile #{fList.files.join(' ').replace(/('|\")/g, '')}", coffeeCallback
 # ## *watch*
 # watch project src folders and build on change
 task 'watch', 'watch project src folders and build on change', ()-> watch -> log ':)', green
@@ -62,12 +65,12 @@ task 'docs', 'Generate Documentation', ()-> docs -> log ':)', green
 docs = ()->
   # From Module 'docco'
   #
-  if (moduleExists 'docco') && paths? && paths.coffee?
-    walk paths.coffee[1], (err, paths) ->
-      try
-        launch 'docco', paths, doccoCallback
-      catch e
-        error e
+  if (moduleExists 'docco')
+    try
+    
+      launch 'docco', fList.files, doccoCallback
+    catch e
+      error e
 
 # ## *test*
 # Runs your test suite.
@@ -79,17 +82,15 @@ test = (options=[],callback)->
     if typeof options is 'function'
       callback = options
       options = []
+
     # add coffee directive
     options.push '--compilers'
     options.push 'coffee:coffee-script'
     options.push '--reporter'
     options.push 'spec'
-    
+    # options.push '-g'
+    # options.push 'Query+'
     launch 'mocha', options, callback
-    
-task 'import:demo', 'Import the demo project build', (callback)-> import_demo -> log ':)', green
-import_demo = (callback)->
-  exec 'cp -r ../sparse-demo/demo .'
 
 # Begin Helpers
 #  
@@ -114,7 +115,7 @@ walk = (dir, done) ->
     pending = list.length
     return done(null, results) unless pending
     for name in list
-      continue if name.match /^\./
+      continue if name.match( /^\./) or name.match( /\.json$/ )
       file = "#{dir}/#{name}"
       try
         stat = fs.statSync file

@@ -1,0 +1,14 @@
+{
+  "files":[
+    "src/sparse.coffee",
+    "src/util.coffee",
+    "src/inflections.coffee",
+    "src/classes/object.coffee",
+    "src/classes/model.coffee",
+    "src/classes/collection.coffee",
+    "src/classes/batch.coffee",
+    "src/classes/user.coffee",
+    "src/classes/users.coffee",
+    "src/classes/query.coffee"
+  ]
+}
