@@ -37,11 +37,11 @@ sparse._encode = (value, seenObjects, disallowObjects)->
   # throws error if sparse.Model is passed while disallowed
   throw "sparse.Models not allowed here" if value instanceof sparse.Model and disallowObjects 
   # returns pointer value
-  return value._toPointer() if !seenObjects or _.include(seenObjects, value) or value.attributes != value.defaults
+  return value._toPointer() if value instanceof sparse.Object and value._toPointer? and typeof value._toPointer == 'function' #!seenObjects or _.include(seenObjects, value) or value.attributes != value.defaults
   # returns encoded sparse.Model
-  return sparse._encode value._toFullJSON(seenObjects = seenObjects.concat value), seenObjects, disallowObjects if !value.dirty()
+  return sparse._encode value._toFullJSON(seenObjects = seenObjects.concat value), seenObjects, disallowObjects if value.hasOwnProperty 'dirty' and typeof value.dirty == 'Function' and !value.dirty()
   # throws error if the object was new/unsaved
-  throw 'Tried to save Model with a Pointer to an new or unsaved Object.'
+  throw 'Tried to save Model with a Pointer to an new or unsaved Object.' if value instanceof sparse.Object and value.isNew()
   # returns Data type as iso encoded object
   return __type:Date, iso: value.toJSON() if _.isDate value
   # returns map of encoded Arrays if value is Array

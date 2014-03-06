@@ -46,7 +46,7 @@ class sparse.Batch extends sparse.Collection
     Batch.__super__._prepareModel.call @, obj, options
   #### sync(method, model, [options])
   # > Overrides `Backbone.Collection.sync`
-  sync : (method, model, options)->
+  sync : (method, model, options={})->
     # returns of no Objects were passed
     return if !model.models or model.models.length == 0
     # prepares to overwrite standard options with API specific headers and params
@@ -54,7 +54,7 @@ class sparse.Batch extends sparse.Collection
     # grabs a subset of our data to fit within Parse's Batch Operation Limit
     opts.data = JSON.stringify requests : (@__to_remove = model.slice 0, (if sparse.MAX_BATCH_SIZE >= 0 and sparse.MAX_BATCH_SIZE < model.models.length then sparse.MAX_BATCH_SIZE else model.models.length) )
     # creates custom success handler for sequential batch operations on large datasets
-    opts.success  = (m,r,o)=>
+    opts.success = (m,r,o)=>
       # applies changes to the referenced `sparse.Object`, adding the processed objects to the `__processed` array
       @__processed.push _.map m, (v,k,l) => _.chain(@__to_remove[k].get 'body').tap((_o) ->
         # passes back the success results if deleted (undefined) or `sets` values on referenced `sparse.Object`
@@ -68,12 +68,12 @@ class sparse.Batch extends sparse.Collection
           @sync method, @, options
         else
           # sends a complete event when the model is empty
-          options.complete @__processed, r, o if options.complete
+          options.complete? @__processed, r, o
       ), 200
       # invokes user supplied success callback if provided
-      options.success m,r,o if options.success
-    opts.error    = (m,r,o)=> options.error m,r,o if options.error
-    opts.complete = (m,r,o)=> options.completed m,r,o if options.completed
+      options.success? m,r,o
+    opts.error    = (m,r,o)=> options.error? m,r,o
+    opts.complete = (m,r,o)=> options.completed? m,r,o
     # calls Backbone.sync to initiate batch processing
     Backbone.sync method, model, _.extend( _.clone(options), opts  )
   #### fetch([options])

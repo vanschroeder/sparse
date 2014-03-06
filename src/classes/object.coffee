@@ -15,29 +15,75 @@ class sparse.Object extends Backbone.Model
     # pluralizes the `className`
     else
       @className = sparse.Inflection.pluralize @className
+  query : ->
+    @_query ?= new sparse.Query @className
+    @_query
   #### url() 
   # > generates a Parse API URL for this object based on the Class name
   url : ->
-    "#{sparse.API_URI}/classes/#{@className}#{ if !@.isNew() then '/'+(@.get 'objectId') else '' }"
+    "#{sparse.API_URI}/classes/#{@className}#{ if !@isNew() then '/'+(@get 'objectId') else '' }"
   #### sync(method, model, [options])
   # > Overrides `Backbone.Model.sync` to apply custom API header and data
   sync : (method, model, options={})->
     # obtains new API Header Object
     opts = sparse.apiOPTS()
+    
+    encode = (o)->
+      if _.isObject o and o.hasOwnProperty '_toPointer' and typeof o._toPointer == 'function' 
+        o = o._toPointer()
+      o
+      
+    if method.match /^(create|read)+$/
+      _.each model.attributes, (v,k)=>
+        v = encode v if _.isObject v
+        if _.isArray v
+          _.map v, (o) => if _.isObject then encode o else o
     # sets the encoded request data to request header
-    opts.data = JSON.stringify @.toJSON()
+    opts.data = if !@_query then JSON.stringify @.toJSON() else "where=#{@_query.toJSON()}"
     # sets `options.url` to avoid duplicate test in `__super__.sync`
     sparse.validateRoute options.url ?= _.result(@, 'url') || '/'
+    
     # calls `sync` on __super__
     Object.__super__.sync.call @, method, model, _.extend( options, opts )
   #### set(attributes, [options])
   # > Overrides `Backbone.Model.set`
   set: (attrs,opts)->
+    # map all sParse.Objects to Pointers
+    # _.each attrs, (v,k)=>
+      # if v.hasOwnProperty '_toPointer' and typeof v._toPointer == 'Function'
+        # v = v._toPointer() 
+        # if (oV = @get k )?.__op?
+          # (oV.objects ?= []).push v
+        # else
+          # k:{__op:"AddRelation", objects:[v]}
     # calls `set` on __super__
+    # attrs = sparse._encode attrs
     s = Object.__super__.set.call @, attrs, opts
     # sets `__isDirty` to true if attributes have changed
     @__isDirty = true if @changedAttributes()
     s
+  save:(attributes, options={})->
+    self = @
+    sparse.Object._findUnsavedChildren @attributes, children = [], files = []
+    if children.length
+      sparse.Object.saveAll children,
+        completed: (m,r,o) =>
+          if m.responseText? and (rt = JSON.parse m.responseText) instanceof Array
+            _.each @attributes, (v,k)=>
+              if v instanceof sparse.Object and v.get?( 'objectId' ) == rt[0].success.objectId
+                console.log p = v._toPointer()
+                @attributes[k] = {__op:"AddRelation", objects:[p]} 
+          Object.__super__.save.call self, attributes, 
+            success: => 
+              console.log 'saved object!'
+              options.completed? m,r,o
+            error: -> console.log 'save failed'
+          
+        success: (m,r,o) => options.success? m,r,o
+        error:   (m,r,o) => options.error? m,r,o
+    else
+      # calls `save` on __super__
+      Object.__super__.save.call @, attributes, options
   #### toJSON([options])
   # > Overrides `Backbone.Model.toJSON`
   toJSON : (options)->
@@ -66,6 +112,23 @@ class sparse.Object extends Backbone.Model
     json.className = @className
     # returns the JSON object
     json
+  #### nestCollection(attributeName, collection)
+  nestCollection: (aName, nCollection) ->
+    # setup nested references
+    for item, i in nCollection
+      @attributes[aName][i] = (nCollection.at i).attributes
+    # create empty arrays if none
+    nCollection.bind 'add', (initiative) =>
+      if !@get aName
+        @attributes[aName] = []
+      (@get aName).push initiative.attributes
+    # remove arrays
+    nCollection.bind 'remove', (initiative) =>
+      updateObj = {}
+      updateObj[aName] = _.without (@get aName), initiative.attributes 
+      @set updateObj
+    # return
+    nCollection
   #### __op
   # > Holder for Object operations
   __op: {}
@@ -94,6 +157,7 @@ class sparse.Object extends Backbone.Model
   #### _finishFetch(serverData, hasData)
   # > Cleans up Object properties
   _finishFetch: (serverData, hasData)->
+    console.log "_finishFetch"
     # resets `_opSetQueue`
     @_opSetQueue = [{}]
     # handles special attributes
@@ -166,6 +230,15 @@ sparse.Object._getSubclass = (className)->
   throw 'sparse.Object._getSubclass requires a string argument.' if !_.isString className
   # sets className on `sparse.Object._classMap` if new and returns Class 
   sparse.Object._classMap[className] ?= if (clazz = sparse.Object._classMap[className]) then clazz else sparse.Object.extend className
+#### sparse.Object._findUnsavedChildren
+sparse.Object._findUnsavedChildren = (object, children, files)->
+  _.each object, (obj)=>
+    if (obj instanceof sparse.Object)
+      children.push obj if obj.dirty()
+      return
+    # if (object instanceof sparse.File)
+      # files.push obj if !obj.url()
+      # return
 #### sparse.Object._create
 # > Creates an instance of a subclass of sparse.Object for the given classname
 sparse.Object._create = (className, attr, opts)->
@@ -181,10 +254,12 @@ sparse.Object._create = (className, attr, opts)->
 sparse.Object.saveAll = (list, options)->
   # create new `sparse.Batch` with the passed list
   (new sparse.Batch list
-  ).exec options
+  ).exec
     # calls `Batch.exec` with callbacks
-    complete:(m,r,o)=>
+    success:(m,r,o)=>
       options.success m,r,o if options.success
+    completed:(m,r,o)=>
+      options.completed m,r,o if options.completed
     error:(m,r,o)=>
       options.error m,r,o if options.error
 #### sparse.Object.destroyAll
@@ -192,9 +267,11 @@ sparse.Object.saveAll = (list, options)->
 sparse.Object.destroyAll = (list, options)->
   # create new `sparse.Batch` with the passed list
   (new sparse.Batch
-  ).destroy list, options
+  ).destroy list, 
     # calls `Batch.destroy` with callbacks
-    complete:(m,r,o)=>
+    success:(m,r,o)=>
       options.success m,r,o if options.success
+    complete:(m,r,o)=>
+      options.complete m,r,o if options.complete
     error:(m,r,o)=>
       options.error m,r,o if options.error

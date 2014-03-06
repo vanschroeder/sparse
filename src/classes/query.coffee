@@ -1,5 +1,5 @@
 #### sparse.Query
-class sparse.Query extends Object
+class sparse.Query
   __q:{}
   __include: []
   __limit: -1
@@ -11,9 +11,10 @@ class sparse.Query extends Object
     if classOrName?
       @objectClass = if _.isString classOrName then sparse.Object._getSubclass classOrName else classOrName
       @className = @objectClass.className || sparse.getConstructorName @objectClass
-
     @or = @_or
     @in = @_in
+  clear:->
+    @__q = {}
   #### find([options])
   # > Executes query and returns all results
   find:(opts={})->
@@ -29,7 +30,7 @@ class sparse.Query extends Object
     @find _.extend opts, {skip:0, limit:1}
   set:(col, key, val)->
     @__q[col] ?= {} if col?
-    (@__q[col] || @__q)[key] = "#{val}"
+    (@__q[col] || @__q)[key] = val
     @
   getParams:->
     (_.map _.pairs @__q, (v,k)=>v.join '=' ).join '&'
@@ -81,9 +82,14 @@ class sparse.Query extends Object
     @set col, '$notInQuery', where:query
   _or:(query)->
     (@__q['$or'] || (@__q.$or = {})).push query.__q
-  relatedTo:(object)->
-    console.error 'Parsely.Statement.$relatedTo required object be of Type Parsely.Model' if !object.get or object.get 'objectId' == null or typeof object.__parse_classname == 'undefined'
-    @set null, "$relatedTo", {__type: "Pointer", objectId: (object.get 'objectId'), className: object.__parse_classname}
+  relatedTo:(object, key)->
+    throw new Error 'sparse.Query.$relatedTo required object be of Type sparse.Object' if !(object instanceof sparse.Object) and object.className?
+    @set null, "$relatedTo", 
+      object:
+        __type: "Pointer"
+        objectId: object.get 'objectId'
+        className: object.className
+      key:"#{key}"
   include:(value)->
     @set null, 'include', "#{value}"
   keys:(val)->

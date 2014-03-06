@@ -26,16 +26,27 @@ describe 'sparse.Query Test Suite', ->
     # )).set jsonData.TestCompanies
     # @data.saveAll
       # success:(r,s,o) => done()
-  it 'sparse.Query should initialize a new Query object', (done)=>
-    test = sparse.Collection
-    @q = new sparse.Query( test
-    ).greaterThanOrEqualTo( 'company_size', 300
-    ).contains( 'tagline', 'revolutionize'
-    ).equalTo( 'active', true
-    ).find
-      success:(s,r,o)=>
+  # it 'sparse.Query should initialize a new Query object', (done)=>
+    # test = sparse.Collection
+    # q = new sparse.Query( test
+    # ).greaterThanOrEqualTo( 'company_size', 300
+    # ).contains( 'tagline', 'revolutionize'
+    # ).equalTo( 'active', true
+    # ).find
+      # success:(s,r,o)=>
+        # done()
+      # error:(s,r,o)=>
+        # console.error s
+  it 'should query Relations', (done)=>
+    class RelateClass extends sparse.Object
+    class ParentClass extends sparse.Object
+    (q = (o = new ParentClass).query()).relatedTo (new RelateClass "objectId":"fiGylUdN8m"), 'parent'
+    o.fetch
+      success:(m,r,o)->
+        # console.log arguments
         done()
-      error:(s,r,o)=>
-        console.error s
+      error:->
+        throw arguments[0]
+        console.log arguments
   # it 'should teardown data for Queries', (done)=>
     # @data.destroyAll()

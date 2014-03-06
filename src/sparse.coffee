@@ -50,3 +50,6 @@ if !global.sparse
       read:   'GET'
       update: 'PUT'
       destroy:'DELETE'
+  sparse.initialize = (app_id, rest_key)->
+    sparse.APP_ID   = app_id
+    sparse.REST_KEY = rest_key
