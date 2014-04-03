@@ -13,12 +13,13 @@ class sparse.Query
       @className = @objectClass.className || sparse.getConstructorName @objectClass
     @or = @_or
     @in = @_in
+    @clear()
   clear:->
     @__q = {}
   #### find([options])
   # > Executes query and returns all results
   find:(opts={})->
-    throw 'no valid Class required' if typeof @objectClass != 'function'
+    throw 'valid Class required' if typeof @objectClass != 'function'
     (new @objectClass).sync( sparse.CRUD_METHODS.read, [], _.extend opts, {where:@__q}
     ).then (s,r,o)=>
       _.each r.results, (v,k)=>
@@ -75,13 +76,13 @@ class sparse.Query
   notContainedIn:(col, array)->
     @set col, '$nin', array
   select:(col, query)->
-    @set col, '$select', {query:query}
+    @set col, '$select', query:query
   inQuery:(col,query)->
     @set col, '$inQuery', where:query
   notInQuery:(col,query)->
     @set col, '$notInQuery', where:query
-  _or:(query)->
-    (@__q['$or'] || (@__q.$or = {})).push query.__q
+  _or:(queries...)->
+    @__q['$or'] = _.concat (@__q['$or'] ?= []), _.map queries, (v,k) => v.__q
   relatedTo:(object, key)->
     throw new Error 'sparse.Query.$relatedTo required object be of Type sparse.Object' if !(object instanceof sparse.Object) and object.className?
     @set null, "$relatedTo", 

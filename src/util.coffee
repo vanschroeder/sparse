@@ -27,10 +27,16 @@ sparse._parseDate = (iso8601)->
   return null if (t = iso8601.match /^([0-9]{1,4})\-([0-9]{1,2})\-([0-9]{1,2})T+([0-9]{1,2}):+([0-9]{1,2}):?([0-9]{1,2})?(.([0-9]+))?Z+$/) == null
   # returns new `Date` from matched value
   new Date Date.UTC t[1] || 0, (t[2] || 1) - 1, t[3] || 0, t[4] || 0, t[5] || 0, t[6] || 0, t[8] || 0
+#### sparse.querify(object)
+# > Returns passes object as Key/Value paired string
+sparse.querify = (obj)->
+  ( _.map _.pairs( obj || {} ), (v,k)=>v.join '=' ).join '&'
 #### sparse.getConstructorName
 # > Attempts to safely determine name of the Class Constructor returns sparse.UNDEFINED_CLASSNAME as fallback
 sparse.getConstructorName = (fun)->
-  fun.constructor.name || if (n=fun.constructor.toString().match /function+\s{1,}([A-Z]{1}[a-zA-Z]*)/)? then n[1] else sparse.UNDEFINED_CLASSNAME
+  fun.constructor.name || if (name = sparse.getFunctionName fun.constructor)? then name else sparse.UNDEFINED_CLASSNAME
+sparse.getFunctionName = (fun)->
+  if (n = fun.toString().match /function+\s{1,}([A-Z]{1}[a-zA-Z]*)/)? then n[1] else null
 #### sparse._encode
 # > Attempts to JSON encode a given Object
 sparse._encode = (value, seenObjects, disallowObjects)->

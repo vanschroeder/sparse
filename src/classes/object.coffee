@@ -15,13 +15,10 @@ class sparse.Object extends Backbone.Model
     # pluralizes the `className`
     else
       @className = sparse.Inflection.pluralize @className
-  query : ->
-    @_query ?= new sparse.Query @className
-    @_query
   #### url() 
   # > generates a Parse API URL for this object based on the Class name
   url : ->
-    "#{sparse.API_URI}/classes/#{@className}#{ if !@isNew() then '/'+(@get 'objectId') else '' }"
+    "#{sparse.API_URI}/classes/#{@className}#{if !@isNew() then '/'+(@get 'objectId') else ''}#{(p=sparse.querify @__op).length then '?'+p else ''}"
   #### sync(method, model, [options])
   # > Overrides `Backbone.Model.sync` to apply custom API header and data
   sync : (method, model, options={})->
@@ -131,7 +128,7 @@ class sparse.Object extends Backbone.Model
     nCollection
   #### __op
   # > Holder for Object operations
-  __op: {}
+  __op: null
   #### _serverData
   # > holder for data as last fetched from server
   _serverData:{}
@@ -212,7 +209,14 @@ class sparse.Object extends Backbone.Model
     @set ({})[attr] = a + (amount ?= 1), null if _.isNumber (a = @get 'attr')
     # returns changedAttributes object
     @changedAttributes()
-          
+  addRelation:(key,relation)->
+    (@__op ?= new sparse.OP @).addRelation key, relation
+  removeRelation:(key,relation)->
+    (@__op ?= new sparse.OP @).removeRelation key, relation    
+  createRelation:(key)->
+    (@__op ?= new sparse.OP @).relation key 
+  relation:(key)->
+    @createRelation key    
           
           
 ## Static Methods
