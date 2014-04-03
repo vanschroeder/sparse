@@ -1,6 +1,6 @@
 language: node_js
 node_js:
   - 0.10
-  - 0.11
+  - 0.11.10
 env:
   - PARSE_APP_ID=M7DqFoDhMsSwddWHK47W0HQvhvOx3BRE4bDOJMxE PARSE_REST_KEY=XekbnRq2vqYbIBJ0wpMQxjFCMV5ugEeAGAICnruR
