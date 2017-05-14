@@ -24,7 +24,7 @@ if (typeof exports !== 'undefined') {
       MAX_BATCH_SIZE: 50,
       DEFAULT_FETCH_LIMIT_OVERRIDE: 200000,
       UNDEFINED_CLASSNAME: '__UNDEFINED_CLASSNAME__',
-      API_URI: "https://api.parse.com/1",
+      API_URI: "http://ec2-34-224-166-183.compute-1.amazonaws.com:1337/parse",
       CRUD_METHODS: {
         create: 'POST',
         read: 'GET',
